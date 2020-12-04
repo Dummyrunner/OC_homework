@@ -37,6 +37,10 @@
 \newcommand{\xtrp}{x \trp}
 \newcommand{\gammaxsig}{\gamma(x,\sigma)}
 \newcommand{\xn}{x_n}
+\newcommand{\xnull}{x_0}
+\newcommand{\xN}{x_N}
+\newcommand{\xk}{x_k}
+\newcommand{\uk}{u_k}
 \newcommand{\xtrpn}{x_n \trp}
 \newcommand{\fxn}{f(\xn)}
 \newcommand{\dotVx}{\dot{V}(x)}
@@ -44,6 +48,9 @@
 \newcommand{\partialVx}{\frac{\partial V(x)} {\partial x}}
 \newcommand{\matricks}[4]{\begin{pmatrix}#1 & #2 \\ #3 & #4 \end{pmatrix}}
 \newcommand{\twovector}[2]{\begin{pmatrix}{ #1 }\\{ #2 }\end{pmatrix}}
+\newcommand{\Ad}{A_d}
+\newcommand{\Bd}{B_d}
+\newcommand{\xkplus}{x_{k+1}}
 
 %opening
 \title{Optimal Control WS20/21: Homework 1}
@@ -54,6 +61,34 @@
 \maketitle
 
 
-\section{}
+\begin{enumerate}
+	\item[\bf a)] Discretize cost functional:\\
+	 	\begin{equation}
+			 J \approx  \xN\trp Q \xN + \sum_{k = 0}^{N-1} \xk \trp Q \xk + \uk\trp R \uk
+	 	\end{equation}
+		
+	\item[\bf b)] Matrix representation of discretized linear dynamics:\\
+	
+	We know
+	\begin{equation}
+		x(t) = e^{At} x(0) + \int_{0}^{t} e^{A(t-\tau)} B u(\tau) d\tau \label{eq:varofconst}
+	\end{equation}
+		Discretizing  with time step size $ h $ \[ \xk \overset{\mathrm{def}}{=} x(kh) \overset{\mathrm{def}}{=} x(t_k) \] and inserting it into  \eqref{eq:varofconst} yields therefore for the state $ \xkplus $
+		
+		\begin{align}
+			\xkplus &= e^{Ah(k+1)} \xnull + \int_{0}^{(k+1)h} e^{A((k+1)h-\tau)} Bu(\tau) d\tau\\
+					&= e^{Ah}\left[ e^{Akh}\xnull + \int_{0}^{kh} e^{A(kh-\tau)}Bu(\tau) d\tau\right] + \int_{kh}^{(k+1)h} e^{A(hT+h-\tau)}Bu(\tau) d\tau.
+		\end{align}
+		
+		We simpify this expression  by substituting with $ v(\tau) = kh + h - \tau $ and obtain
+		\begin{align}
+			\xkplus &= e^{Ah}\xk - \left( \int_{v(kh)}^{v((k+1)h)} e^{Av} dv \right) B\uk\\
+					&= \underbrace{e^{Ah}}_{=:\Ad}\xk - \underbrace{\left(\int_{h}^{0} e^{Av} dv B \right)}_{=:\Bd}   \uk.
+		\end{align}
+		This verifies the given Matrix representation.
+		
+		
+		
+\end{enumerate}
 
 \end{document}
