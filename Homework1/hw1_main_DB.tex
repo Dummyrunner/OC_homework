@@ -11,6 +11,7 @@
 \setlength{\hoffset}{-15mm}
 
 % Define custom commands
+\newcommand{\ind}[2]{{#1}_{\mathrm{#2}}}
 \newcommand{\trp}{^T}
 \newcommand{\fx}{f(x)}
 \newcommand{\fsigx}{f(\sigma x)}
@@ -51,6 +52,11 @@
 \newcommand{\Ad}{A_d}
 \newcommand{\Bd}{B_d}
 \newcommand{\xkplus}{x_{k+1}}
+%\newcommand{\dotx}{\dot{x}}
+\newcommand{\tk}{t_{k}}
+\newcommand{\tkplus}{t_{k+1}}
+\newcommand{\Aeul}{\ind{A}{eul}}
+\newcommand{\Beul}{\ind{B}{eul}}
 
 %opening
 \title{Optimal Control WS20/21: Homework 1}
@@ -73,21 +79,37 @@
 	\begin{equation}
 		x(t) = e^{At} x(0) + \int_{0}^{t} e^{A(t-\tau)} B u(\tau) d\tau \label{eq:varofconst}
 	\end{equation}
-		Discretizing  with time step size $ h $ \[ \xk \overset{\mathrm{def}}{=} x(kh) \overset{\mathrm{def}}{=} x(t_k) \] and inserting it into  \eqref{eq:varofconst} yields therefore for the state $ \xkplus $
+		Discretizing  with time step size $ h $ \[ \xk \overset{\mathrm{def}}{=} x(kh) \overset{\mathrm{def}}{=} x(t_k) \] and inserting it into  \eqref{eq:varofconst} yields therefore for the state $ \xkplus $ the expression
 		
 		\begin{align}
 			\xkplus &= e^{Ah(k+1)} \xnull + \int_{0}^{(k+1)h} e^{A((k+1)h-\tau)} Bu(\tau) d\tau\\
 					&= e^{Ah}\left[ e^{Akh}\xnull + \int_{0}^{kh} e^{A(kh-\tau)}Bu(\tau) d\tau\right] + \int_{kh}^{(k+1)h} e^{A(hT+h-\tau)}Bu(\tau) d\tau.
 		\end{align}
-		
-		We simpify this expression  by substituting with $ v(\tau) = kh + h - \tau $ and obtain
+		Where we assume that the steering signal $ u $ is constant between the discretization time samples $ \tk. $
+		We simplify this expression  by substituting with $ v(\tau) = kh + h - \tau $ and obtain
 		\begin{align}
 			\xkplus &= e^{Ah}\xk - \left( \int_{v(kh)}^{v((k+1)h)} e^{Av} dv \right) B\uk\\
-					&= \underbrace{e^{Ah}}_{=:\Ad}\xk - \underbrace{\left(\int_{h}^{0} e^{Av} dv B \right)}_{=:\Bd}   \uk.
+			&= e^{Ah}\xk - \left(\int_{h}^{0} e^{Av} dv B \right) \uk.\\
+					&= \underbrace{e^{Ah}}_{=:\Ad}\xk + \underbrace{\left(\int_{0}^{h} e^{Av} dv B \right)}_{=:\Bd}   \uk. \label{eq:exactdiscr}
 		\end{align}
 		This verifies the given Matrix representation.
-		
-		
+	\item[\bf c)] 
+		Euler Approximation: \begin{equation}
+			\dotx(\tk) \approx \frac{x(\tkplus) - x(\tk)}{h}. \label{eq:eulerapprox} 
+		\end{equation}
+		Rearranging \eqref{eq:eulerapprox} yields 
+		\begin{align}
+			x(\tkplus) - x(\tk) &\approx h \dotx(\tk)\\
+			&= hAx(\tk) + hBu(\tk)\\
+			\Longleftrightarrow \quad x(\tkplus) &\approx (I+Ah)x(\tk) + hBu(\tk)\\
+			 \xkplus &\approx \underbrace{(I+Ah)}_{=: \Aeul} \xk + hB\uk.
+		\end{align}
+		Relation to \eqref{eq:exactdiscr}:\\
+		By the definition of the matrix exponential, we have
+		\begin{equation}
+			\Ad = e^{Ah} = \sum_{k=0}^{\infty} \frac{A^kh^k}{k!}.
+		\end{equation}
+		 Neglecting all quadratic and higher terms yields with $ \Ad $ from {\bf b)} \[ \Ad \approx I+Ah = \Aeul  \] which is exactly the matrix obtained by the euler approximation.
 		
 \end{enumerate}
 
