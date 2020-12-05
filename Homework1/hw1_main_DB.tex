@@ -11,6 +11,7 @@
 \setlength{\hoffset}{-15mm}
 
 % Define custom commands
+\newcommand{\todo}{{\color{red} TODO!}}
 \newcommand{\ind}[2]{{#1}_{\mathrm{#2}}}
 \newcommand{\trp}{^T}
 \newcommand{\fx}{f(x)}
@@ -39,6 +40,7 @@
 \newcommand{\gammaxsig}{\gamma(x,\sigma)}
 \newcommand{\xn}{x_n}
 \newcommand{\xnull}{x_0}
+\newcommand{\unull}{u_0}
 \newcommand{\xN}{x_N}
 \newcommand{\xk}{x_k}
 \newcommand{\uk}{u_k}
@@ -57,7 +59,22 @@
 \newcommand{\tkplus}{t_{k+1}}
 \newcommand{\Aeul}{\ind{A}{eul}}
 \newcommand{\Beul}{\ind{B}{eul}}
-
+\newcommand{\optmin}{\mathrm{min}.}
+\newcommand{\Aeq}{\ind{A}{eq}}
+\newcommand{\beq}{\ind{b}{eq}}
+\newcommand{\Aeqx}{\Aeq^x}
+\newcommand{\Aequ}{\Aeq^u}
+\newcommand{\Aineq}{\ind{A}{{  in}}}
+\newcommand{\bineq}{\ind{b}{{  in}}}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\xtilde}{\tilde{x}}
+\newcommand{\vectorthree}[3]{\begin{pmatrix}
+		#1 \\ #2 \\ #3
+\end{pmatrix}}
+\newcommand{\vectortwo}[2]{\begin{pmatrix}
+		#1 \\ #2
+\end{pmatrix}}
+\newcommand{\half}{\frac{1}{2}}
 %opening
 \title{Optimal Control WS20/21: Homework 1}
 \author{Daniel Bergmann}
@@ -93,7 +110,7 @@
 					&= \underbrace{e^{Ah}}_{=:\Ad}\xk + \underbrace{\left(\int_{0}^{h} e^{Av} dv B \right)}_{=:\Bd}   \uk. \label{eq:exactdiscr}
 		\end{align}
 		This verifies the given Matrix representation.
-	\item[\bf c)] 
+
 		Euler Approximation: \begin{equation}
 			\dotx(\tk) \approx \frac{x(\tkplus) - x(\tk)}{h}. \label{eq:eulerapprox} 
 		\end{equation}
@@ -110,6 +127,58 @@
 			\Ad = e^{Ah} = \sum_{k=0}^{\infty} \frac{A^kh^k}{k!}.
 		\end{equation}
 		 Neglecting all quadratic and higher terms yields with $ \Ad $ from {\bf b)} \[ \Ad \approx I+Ah = \Aeul  \] which is exactly the matrix obtained by the euler approximation.
+	\item[\bf c)]  Reformulate the discrete OC problem
+	\begin{equation}
+		\begin{aligned}
+		& \underset{x,u}{\text{min.}}
+		& & \sum_{k=ß}^{N-1} g(x,u) =  \xN\trp Q \xN + \sum_{k = 0}^{N-1} \xk \trp Q \xk + \uk\trp R \uk\\
+		& \text{subject to}
+		& & \xkplus = \Ad \xk + \Bd \uk\\
+		& & &\xnull = \xbar\\ 
+		\end{aligned}
+	\end{equation}
+	
+	
+	We begin by defining the optimization variables vector $ y $. It consists of all inputs and all states that occur from the initial time to the finite time horizon. So we define
+	\begin{equation}
+		\begin{gathered}
+		u := \vectorthree{\unull}{\vdots}{u_{N-1}}; \quad  x := \vectorthree{\xnull}{\vdots}{\xN}; \quad y := \vectortwo{x}{u} .
+		\end{gathered}
+	\end{equation}
+	 
+	 For the objective function, we obtain $ g(x,u) = \half y\trp H y + 0 \trp y + 0 $ with
+ the block diagonal matrix \[ H = \mathrm{diag} (\underbrace{Q,\dots,Q}_{N \text{blocks}},\underbrace{R,\dots,R}_{N-1 \text{blocks}}). \]
+ Further, we implement the given system dynamics as linear equality constraints. Rearranging the difference equation yields \[ \Ad\xk - \xkplus + B\uk = 0 \qquad \text{for all } k = 1,\dots,N-1. \]
+ By stacking these equations for all $ k \in \{1,\dots,N-1\} $, we can formulate them as
+% 
+% \begin{align}
+% 	Inhalt...
+% \end{align}
+  $ \Aeq y = \beq $ with
+  $ \Aeq =   \left( \Aeqx \quad \Aequ \right), $
+  
+  
+  and more detailed,
+ \begin{align*}
+ \Aeqx &=  \begin{pmatrix}
+ I_{n\times n} & 0 & \cdots & \cdots & 0\\
+ \Ad & -I_{n\times n} & \cdots & \cdots & \vdots\\
+ 0 & \ddots & \ddots &  &  0\\
+ \vdots & & \ddots  & \ddots & 0\\
+ \vdots & \cdots & & \Ad & -I_{n\times n}
+ \end{pmatrix},\\
+ \Aequ &= \begin{pmatrix}
+ 0 & \cdots & 0\\
+ \Bd &\ddots &\vdots\\
+ \vdots &\ddots & 0\\
+ 0 & \cdots & \Bd\\
+ \end{pmatrix}.\\
+ \beq &= \begin{pmatrix}
+ \xbar\\\vdots\\0
+ \end{pmatrix}.
+ \end{align*}
+The first row of blocks implements the initial condition $ \xnull = \xbar $.
+		
 		
 \end{enumerate}
 
