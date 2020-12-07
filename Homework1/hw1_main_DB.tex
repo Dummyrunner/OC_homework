@@ -3,6 +3,7 @@
 % include Packages
 \usepackage{amsmath,amssymb}
 \usepackage{amsthm}
+\usepackage{xcolor}
 
 % Formatting text ranges
 \setlength{\textwidth}{450pt}
@@ -10,7 +11,16 @@
 \setlength{\topmargin}{-40pt}
 \setlength{\hoffset}{-15mm}
 
+% Define Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem} % allow not enumerated theorems
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
 % Define custom commands
+\newcommand{\yopt}{y^*}
 \newcommand{\todo}{{\color{red} TODO!}}
 \newcommand{\ind}[2]{{#1}_{\mathrm{#2}}}
 \newcommand{\trp}{^T}
@@ -75,6 +85,21 @@
 		#1 \\ #2
 \end{pmatrix}}
 \newcommand{\half}{\frac{1}{2}}
+\newcommand{\grad}{\nabla}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+%\newcommand{\Rn}{\mathbb{R}^n}
+\newcommand{\Rm}{\mathbb{R}^m}
+\newcommand{\Rp}{\mathbb{R}^p}
+\newcommand{\Fx}{F(x)}
+\newcommand{\jac}{J}
+\newcommand{\jacF}{\jac F}
+\newcommand{\inv}{^{-1}}
+
+
+
+
+
 %opening
 \title{Optimal Control WS20/21: Homework 1}
 \author{Daniel Bergmann}
@@ -127,7 +152,7 @@
 			\Ad = e^{Ah} = \sum_{k=0}^{\infty} \frac{A^kh^k}{k!}.
 		\end{equation}
 		 Neglecting all quadratic and higher terms yields with $ \Ad $ from {\bf b)} \[ \Ad \approx I+Ah = \Aeul  \] which is exactly the matrix obtained by the euler approximation.
-	\item[\bf d)]  Reformulate the discrete OC problem
+	\item[\bf d)]  Bring the discrete OC problem
 	\begin{equation}
 		\begin{aligned}
 		& \underset{x,u}{\text{min.}}
@@ -135,6 +160,15 @@
 		& \text{subject to}
 		& & \xkplus = \Ad \xk + \Bd \uk\\
 		& & &\xnull = \xbar\\ 
+		\end{aligned}
+	\end{equation}
+	to the form
+	\begin{equation} \label{eq:quadproblem}
+		\begin{aligned}
+		& \underset{y}{\text{min.}}
+		& & \half y\trp H y + f\trp y + d\\
+		& \text{subject to}
+		& & \Aeq y = \beq.
 		\end{aligned}
 	\end{equation}
 	
@@ -178,8 +212,29 @@
  \end{pmatrix}.
  \end{align*}
 The first row of blocks implements the initial condition $ \xnull = \xbar $.
-		
-		
+
+\item[\bf d)] Formulating  conditions at an optimum.\\
+For stating criteria on a minimum of our problem, we use the KKT conditions.
+We know that for convex problems they are neccessary and sufficient. Since $ Q,R \succ 0$ and hence $ H \succ 0 $, the quadratic objective is convex. The equality constraints are affine and we have no inequality constraints. Thus the given problem is convex. For the KKT conditions to hold in a point $ y$, a CQ has to be satisfied. We use the Linear Independence Constraint Qualification (LICQ).
+%It is satisfied, if \grad h(y) = 0 has linear independent columns \todo. In our particular problem:\\
+% \[ \grad h(y) = \grad(\Aeq y - \beq) =\Aeq.\]
+% So a CQ is satisfied, if $ \Aeq $ has full rank.
+It holds automatically, since we have no inequality constraints. 
+Further, we compute the condition on the Lagrangian of \eqref{eq:quadproblem} at a optimal point $ \yopt $
+\begin{equation}
+	\grad_y	L(\yopt,\lambda,\nu) = H\yopt + \nu \trp (\Aeq) \overset{!}{=} 0. \label{eq:Lagrcond}
+\end{equation}
+Additionally, the point $ \yopt $ has to be admissible and hence \begin{equation}
+	\Aeq \yopt - \beq = 0 \label{eq:Admisscond}
+\end{equation}
+must hold.
+By rearranging \eqref{eq:Lagrcond}, we obtain
+\[ y = - H\inv\Aeq \trp \nu. \] Note, that $ H $ is invertible since it is positive definite.
+Plugging this into \eqref{eq:Admisscond} yields
+\[  \Aeq (-H\inv \Aeq \trp \nu) -\beq = 0 \Longleftrightarrow \nu = -(\Aeq H\inv \Aeq\trp)\inv \beq.\]
+Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is a optimal solution\\
+\todo remark on rank of $ \Aeq $?
+
 \end{enumerate}
 
 \end{document}
