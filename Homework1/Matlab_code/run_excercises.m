@@ -17,3 +17,9 @@ sys_d = c2d(sys_c,h);
 [Ad,Bd,~,~] = ssdata(sys_d);
 
 [H,Aeq,beq] = lqr_ecfh2quadprog(Ad, Bd, Q, R, N,x0);
+
+%  Compute optimum analytically via KKT
+Hinv = inv(H);
+yopt_ana = Hinv*Aeq'*inv(Aeq*Hinv*Aeq')*beq;
+
+% Compute optimum numerically via quadprog()
