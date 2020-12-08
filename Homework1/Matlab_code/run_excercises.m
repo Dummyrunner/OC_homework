@@ -15,3 +15,5 @@ x0 = [-2 3]';
 sys_c = ss(Acont,Bcont,eye(2),0);
 sys_d = c2d(sys_c,h);
 [Ad,Bd,~,~] = ssdata(sys_d);
+
+[H,Aeq,beq] = lqr_ecfh2quadprog(Ad, Bd, Q, R, N,x0);
