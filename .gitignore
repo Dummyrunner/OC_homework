@@ -13,6 +13,9 @@
 .*.lb
 *.synctex.gz
 
+# MATLAB autosave and auxilary files:
+*.asv
+
 ## Intermediate documents:
 *.dvi
 *.xdv
