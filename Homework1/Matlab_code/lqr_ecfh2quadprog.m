@@ -1,4 +1,4 @@
-function [H,Aeq,beq] = lqr_ecfh2quadprog(Ad, Bd, Q, R, N, x0)
+function [H,f,Aeq,beq] = lqr_ecfh2quadprog(Ad, Bd, Q, R, N, x0)
 %LQR_ecfh2quadprog Translates a LQR optimal control Problem with
 %time-discrete sys. dyn., finite time horizon
 %Ad, Bd and objective det. by N (prediction horizon), Q, R into an quadratic optimal problem
@@ -12,6 +12,7 @@ Rs = repmat({R},N,1);
 Qblk = blkdiag(Qs{:});
 Rblk = blkdiag(Rs{:});
 H = 0.5.*blkdiag(Qblk,Rblk);
+f = zeros(size(H,1),1);
 
 % express system dynamics and init. cond. in equality constr.
 % matrices applied on x
