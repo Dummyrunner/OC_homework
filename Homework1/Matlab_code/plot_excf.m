@@ -51,14 +51,14 @@ subplot(3,1,1)
 hold on
 title('State x1 over time, analytical vs. numerical solution')
 plot(ana.x1,'DisplayName','x1_{ana}')
-plot(num.x1,'DisplayName','x2_{num}')
+plot(num.x1,'DisplayName','x1_{num}')
 hold off
 legend;
 
 subplot(3,1,2)
 hold on
 title('State x1 over time, analytical vs. numerical solution')
-plot(ana.x2,'DisplayName','x1_{ana}')
+plot(ana.x2,'DisplayName','x2_{ana}')
 plot(num.x2,'DisplayName','x2_{num}')
 hold off
 legend;
