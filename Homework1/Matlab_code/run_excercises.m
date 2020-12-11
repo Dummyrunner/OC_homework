@@ -26,4 +26,4 @@ yopt_ana = Hinv*Aeq'*inv(Aeq*Hinv*Aeq')*beq;
 [yopt_num, fval_num] = quadprog(H,f,zeros(size(f,1)),zeros(size(f,1),1),Aeq,beq);
 
 % Call plot routine for visualization
-plot_xu2D(yopt_ana);
+plot_excf;
