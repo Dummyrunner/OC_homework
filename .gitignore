@@ -15,7 +15,7 @@
 
 # MATLAB autosave and auxilary files:
 *.asv
-
+sandbox.m
 ## Intermediate documents:
 *.dvi
 *.xdv
