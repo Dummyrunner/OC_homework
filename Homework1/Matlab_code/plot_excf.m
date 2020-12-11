@@ -71,4 +71,8 @@ plot(num.u,'DisplayName','u_{num}')
 hold off
 legend;
 
+%% Save plots to file
+saveas(fig_f1, '..\plots\exc_f1.pdf')
+saveas(fig_f2, '..\plots\exc_f2.pdf')
+
 
