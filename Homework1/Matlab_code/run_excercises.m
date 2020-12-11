@@ -53,7 +53,7 @@ end
 
 % plot results for each alpha
 for ialpha = 1:length(alphas)
-    fig_g = figure(30)
+    fig_g = figure(30);
     sgtitle('Compare traj. for different $Q = \alpha I$ with $\alpha = 0.1,1,10$','Interpreter','latex');
     
     subplot(3,1,1)
@@ -77,10 +77,11 @@ for ialpha = 1:length(alphas)
     hold off
     legend('Interpreter','latex');
 end
-disp('Exc g) done...')
+
 saveas(fig_g, '..\plots\exc_g.pdf');
 disp('Generated plots saved to file')
 
+disp('Exc g) done...')
 disp('Excercise script finished successfully')
 
 
