@@ -27,6 +27,12 @@ yopt_ana = Hinv*Aeq'*inv(Aeq*Hinv*Aeq')*beq;
 % Compute optimum numerically via quadprog()
 [yopt_num, fval_num] = quadprog(H,f,zeros(size(f,1)),zeros(size(f,1),1),Aeq,beq);
 
+% Extract trajectories from yopt
+ana =  struct;
+num =  struct;
+[ana.x1,ana.x2,ana.u] = extract_xu(yopt_ana);
+[num.x1,num.x2,num.u] = extract_xu(yopt_num);
+
 % Call plot script for visualization, including save to file
 plot_excf;
 disp('Exc f) done...')

@@ -1,9 +1,4 @@
 %% generating Plots for excercise f)
-ana =  struct;
-num =  struct;
-
-[ana.x1,ana.x2,ana.u] = extract_xu(yopt_ana);
-[num.x1,num.x2,num.u] = extract_xu(yopt_num);
 
 % difference between analytic and numeric solution
 e = struct;
