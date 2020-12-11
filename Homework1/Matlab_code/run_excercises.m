@@ -22,6 +22,8 @@ sys_d = c2d(sys_c,h);
 Hinv = inv(H);
 yopt_ana = Hinv*Aeq'*inv(Aeq*Hinv*Aeq')*beq;
 
-
 % Compute optimum numerically via quadprog()
 [yopt_num, fval_num] = quadprog(H,f,zeros(size(f,1)),zeros(size(f,1),1),Aeq,beq);
+
+% Call plot routine for visualization
+plot_xu2D(yopt_ana);
