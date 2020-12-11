@@ -11,14 +11,17 @@ N = 50;
 h = tf/N;
 x0 = [-2 3]';
 
-% compute matrices Ad,Bd for time-discrete representation of the dynamics
+% compute matrices Ad,Bd for exact time-discrete representation of the dynamics
 sys_c = ss(Acont,Bcont,eye(2),0);
 sys_d = c2d(sys_c,h);
 [Ad,Bd,~,~] = ssdata(sys_d);
-
+% comptue matrices for approx. euler discrete representation of the dynamics
+Ad_eul =  eye(2) + h.*Acont;
+Bd_eul = h.*Bcont; 
 
 %% exc f)
 [H,f,Aeq,beq] = lqr_ecfh2quadprog(Ad, Bd, Q, R, N,x0);
+[H,f,Aeq_eul,beq_eul] = lqr_ecfh2quadprog(Ad_eul, Bd_eul, Q, R, N,x0);
 
 %  Compute optimum analytically via KKT
 Hinv = inv(H);
@@ -26,12 +29,14 @@ yopt_ana = Hinv*Aeq'*inv(Aeq*Hinv*Aeq')*beq;
 
 % Compute optimum numerically via quadprog()
 [yopt_num, fval_num] = quadprog(H,f,zeros(size(f,1)),zeros(size(f,1),1),Aeq,beq);
-
+[yopt_eul, fval_eul] = quadprog(H,f,zeros(size(f,1)),zeros(size(f,1),1),Aeq_eul,beq_eul);
 % Extract trajectories from yopt
 ana =  struct;
 num =  struct;
+eul = struct;
 [ana.x1,ana.x2,ana.u] = extract_xu(yopt_ana);
 [num.x1,num.x2,num.u] = extract_xu(yopt_num);
+[eul.x1,eul.x2,eul.u] = extract_xu(yopt_eul);
 
 % Call plot script for visualization, including save to file
 plot_excf;
@@ -45,8 +50,6 @@ x1 = {};
 x2 = {};
 u = {};
 
-% prepare figure
-figure(3);clf;
 
 % compute opt traj. for each alpha
 for ialpha = 1:length(alphas)
@@ -58,6 +61,7 @@ for ialpha = 1:length(alphas)
 end
 
 % plot results for each alpha
+figure(30);clf;
 for ialpha = 1:length(alphas)
     fig_g = figure(30);
     sgtitle('Compare traj. for different $Q = \alpha I$ with $\alpha = 0.1,1,10$','Interpreter','latex');
