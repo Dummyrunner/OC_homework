@@ -97,10 +97,29 @@ disp('Exc g) done...')
 tsamples = linspace(0,tf,N+1);
 [t_sim,x_sim] = ode45(@(x,t) sys_cont(x,t,Acont,Bcont,num.u,tf,N,h),tsamples,x0,odeset('RelTol',5e-10,'AbsTol',5e-10));
 
-size(t_sim)
-size(x_sim)
+fig_h = figure(30); clf;
+sgtitle('Difference between exact- and euler discretization')
+subplot(4,1,1)
+hold on
+title('Difference Simulated system with piecewise const. input vs. obtained traj. from quadprog ')
+plot(x_sim(:,1),'DisplayName','x1_{sim}')
+plot(num.x1,'DisplayName','x1_{quadprog}');
+hold off
+legend;
 
+subplot(4,1,2)
+hold on
+title('Difference Simulated system with piecewise const. input vs. obtained traj. from quadprog ')
+plot(num.x1 - x_sim(:,1),'DisplayName','error x1_{quadprog} - x1_{sim}')
+hold off
+legend;
 
+subplot(4,1,3)
+hold on
+title('Difference Simulated system with piecewise const. input vs. obtained traj. from quadprog ')
+plot(num.x2 - x_sim(:,2),'DisplayName','error x2_{quadprog} - x2_{sim}')
+hold off
+legend;
 %% end of exc
 disp('Excercise script finished successfully')
 
@@ -120,7 +139,6 @@ function dx_cont = sys_cont(t,x,Acont,Bcont,discr_u,tf,N,h)
     time2index = @(time) fix(teff(time)/h)+1;
     % u_stait(t) evaluates the stair input signal at time t
     % out of [0,tf)
-    time2index(t)
     u_stair = @(time) discr_u(time2index(time))*(1 - (time < 0 & time >= tf));
     
     % compute dynamics
