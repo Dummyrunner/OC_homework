@@ -82,7 +82,7 @@ legend;
 
 %% Plot error between num. and ana. sol.
 fig_f3 = figure(12); clf;
-sgtitle('Difference between analytical  analytic vs. numerical solution')
+sgtitle('Difference analytical vs. numerical solution')
 subplot(3,1,1)
 hold on
 title('State x1 over time, difference between analytical  and  numerical solution')
