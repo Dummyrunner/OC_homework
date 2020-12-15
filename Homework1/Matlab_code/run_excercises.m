@@ -95,7 +95,10 @@ disp('Exc g) done...')
 
 % Simulate cont' time system over time vector tsamples
 tsamples = linspace(0,tf,N+1);
-[t_sim,x_cont] = ode45(@(x,t) sys_cont(x,t,Acont,Bcont,num.u,tf,N,h),tsamples,x0,odeset('RelTol',5e-10,'AbsTol',5e-10));
+[t_sim,x_sim] = ode45(@(x,t) sys_cont(x,t,Acont,Bcont,num.u,tf,N,h),tsamples,x0,odeset('RelTol',5e-10,'AbsTol',5e-10));
+
+size(t_sim)
+size(x_sim)
 
 
 %% end of exc
@@ -114,9 +117,10 @@ function dx_cont = sys_cont(t,x,Acont,Bcont,discr_u,tf,N,h)
     % u is zero for time out of [0, tf]
     teff = @(t) (t - mod(t,h))*(t>=0 & t<=tf);
     % function for determining according index k of t_k
-    time2index = @(time) fix(teff(time)/h) + 1;
+    time2index = @(time) fix(teff(time)/h)+1;
     % u_stait(t) evaluates the stair input signal at time t
     % out of [0,tf)
+    time2index(t)
     u_stair = @(time) discr_u(time2index(time))*(1 - (time < 0 & time >= tf));
     
     % compute dynamics
