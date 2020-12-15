@@ -93,21 +93,32 @@ disp('Exc g) done...')
 
 %% exc h
 
-% u by quadprog is piecewise constant
-%  => u(t1) = u(t2) for all t2 \in [t1,t1+h)
-% u is zero for time out of [0, tf-h]
-
-% function for determining "effective time"
-teff = @(t) (t - mod(t,h));%*(t>=0 & t<=tf);
-% function for determining according index k of t_k
-time2index = @(t) teff(t)/h;
-u_stair = @(t) num.u(time2index(t));
-dx_cont = @(t,x) Acont*x + Bcont*u_stair(t); % state derivation in cont. sys.
-
+% Simulate cont' time system over time vector tsamples
 tsamples = linspace(0,tf,N+1);
-[t_cont,x_cont] = ode45(dx_cont,tsamples,x0,odeset('RelTol',5e-10,'AbsTol',5e-10));
+[t_sim,x_cont] = ode45(@(x,t) sys_cont(x,t,Acont,Bcont,num.u,tf,N,h),tsamples,x0,odeset('RelTol',5e-10,'AbsTol',5e-10));
 
 
 %% end of exc
 disp('Excercise script finished successfully')
 
+
+%% --------------------------------------------------------------------
+function dx_cont = sys_cont(t,x,Acont,Bcont,discr_u,tf,N,h)
+%   Extracts current input signal from discrete input vector and determines
+%   the resulting time derivative of x in the cont. sys.
+
+    discr_u(end+1) = 0; % append zero to input signal (no input in terminal state)
+    % function for determining "effective time"
+    % u by quadprog is piecewise constant
+    %  => u(t1) = u(t2) for all t2 \in [t1,t1+h)
+    % u is zero for time out of [0, tf]
+    teff = @(t) (t - mod(t,h))*(t>=0 & t<=tf);
+    % function for determining according index k of t_k
+    time2index = @(time) fix(teff(time)/h) + 1;
+    % u_stait(t) evaluates the stair input signal at time t
+    % out of [0,tf)
+    u_stair = @(time) discr_u(time2index(time))*(1 - (time < 0 & time >= tf));
+    
+    % compute dynamics
+    dx_cont = Acont*x + Bcont*u_stair(t);
+end
