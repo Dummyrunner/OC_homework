@@ -128,11 +128,5 @@ plot(0:N-1,eeul.u,'DisplayName','error u')
 hold off
 legend;
 
-%% Save plots to file
-saveas(fig_f1, '..\plots\exc_f1.pdf')
-saveas(fig_f2, '..\plots\exc_f2.pdf')
-saveas(fig_f3, '..\plots\exc_f3.pdf')
-saveas(fig_f4, '..\plots\exc_f4.pdf')
 
-disp('Generated plots saved to file')
 

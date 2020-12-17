@@ -39,6 +39,13 @@ eul = struct;
 
 % Call plot script for visualization, including save to file
 plot_excf;
+% Save plots to file
+saveas(fig_f1, '..\plots\exc_f1.png','png')
+saveas(fig_f2, '..\plots\exc_f2.png','png')
+saveas(fig_f3, '..\plots\exc_f3.png','png')
+saveas(fig_f4, '..\plots\exc_f4.png','png')
+
+disp('Generated plots saved to file')
 disp('Exc f) done...')
 
 %% exc g)
@@ -59,7 +66,7 @@ end
 
 % plot results for each alpha
 plot_excg;
-saveas(fig_g, '..\plots\exc_g.pdf');
+saveas(fig_g, '..\plots\exc_g.png','png');
 disp('Generated plots saved to file')
 
 disp('Exc g) done...')
@@ -72,7 +79,7 @@ tsamples = linspace(0,tf,N+1);
 
 
 plot_exch;
-saveas(fig_h, '..\plots\exc_h.pdf');
+saveas(fig_h, '..\plots\exc_h.png','png');
 disp('Generated plots saved to file')
 
 disp('Exc h) done...')
