@@ -97,30 +97,34 @@ disp('Exc g) done...')
 tsamples = linspace(0,tf,N+1);
 [t_sim,x_sim] = ode45(@(x,t) sys_cont(x,t,Acont,Bcont,num.u,tf,N,h),tsamples,x0,odeset('RelTol',5e-10,'AbsTol',5e-10));
 
-fig_h = figure(30); clf;
-sgtitle('Difference between exact- and euler discretization')
-subplot(4,1,1)
+fig_h = figure(40); clf;
+% sgtitle('Difference between exact- and euler discretization')
+% subplot(4,1,1)
+% hold on
+% title('Difference Simulated system with piecewise const. input vs. obtained traj. from quadprog ')
+% plot(x_sim(:,1),'DisplayName','x1_{sim}')
+% plot(num.x1,'DisplayName','x1_{quadprog}');
+% hold off
+% legend;
+
+subplot(2,1,1)
 hold on
-title('Difference Simulated system with piecewise const. input vs. obtained traj. from quadprog ')
-plot(x_sim(:,1),'DisplayName','x1_{sim}')
-plot(num.x1,'DisplayName','x1_{quadprog}');
+title('Difference Simulated state x1 vs. traj. obtained from quadprog() ')
+plot(0:N,num.x1 - x_sim(:,1),'DisplayName','error x1_{quadprog} - x1_{sim}')
 hold off
 legend;
 
-subplot(4,1,2)
+subplot(2,1,2)
 hold on
-title('Difference Simulated system with piecewise const. input vs. obtained traj. from quadprog ')
-plot(num.x1 - x_sim(:,1),'DisplayName','error x1_{quadprog} - x1_{sim}')
+title('Difference Simulated state x2 const. input vs. traj. obtained from quadprog ')
+plot(0:N,num.x2 - x_sim(:,2),'DisplayName','error x2_{quadprog} - x2_{sim}')
 hold off
 legend;
 
-subplot(4,1,3)
-hold on
-title('Difference Simulated system with piecewise const. input vs. obtained traj. from quadprog ')
-plot(num.x2 - x_sim(:,2),'DisplayName','error x2_{quadprog} - x2_{sim}')
-hold off
-legend;
+disp('Exc h) done...')
+
 %% end of exc
+
 disp('Excercise script finished successfully')
 
 
