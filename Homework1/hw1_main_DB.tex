@@ -1,11 +1,12 @@
 \documentclass[]{article}
 
 % include Packages
+%\usepackage{pdfpages}
 \usepackage{amsmath,amssymb}
 \usepackage{amsthm}
 \usepackage{xcolor}
 \usepackage{graphicx}
-%\usepackage{pdfpages}
+\usepackage{float}
 
 % Formatting text ranges
 \setlength{\textwidth}{450pt}
@@ -111,6 +112,7 @@
 \maketitle
 
 \section{Theory Part}
+First, all answers to theoretical questions are given. The regarding plots can be found in \ref{sec:plots}
 \begin{enumerate}
 	\item[\bf a)] Discretize cost functional:\\
 	 	\begin{equation}
@@ -235,20 +237,51 @@ By rearranging \eqref{eq:Lagrcond}, we obtain
 Note, that $ H $ is invertible since it is positive definite.
 Plugging this into \eqref{eq:Admisscond} yields for $ \Aeq $ with full rank
 \[  \Aeq (-H\inv \Aeq \trp \nu) -\beq = 0 \Longleftrightarrow \nu = -(\Aeq H\inv \Aeq\trp)\inv \beq.\]
-Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is an optimal solution\\
+Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is an optimal solution.\\
 
 
-%\item[\bf f)] f) \includepdf[pages=-]{plots/exc_f1.pdf}
-
-
+\item[\bf f)] -
 \item[\bf g)] High values for $ \alpha $ let high state values be punished strongly. Therefore the optimal trajectory contains small values for $ \xone,\xtwo $.  Input values can increase, because their impact on the objective value is not as strong as the state's impact. Small values for $ \alpha $ have the opposite effect. 
 
 \item[\bf h)] Since the applied discretization in the quadratic programming approach is exact, the state values for the simulated and the optimized trajectorie should coincide at every $ t_k $. Nonetheless, small numerical inaccuracies amplify themselves over time. This leads to large differences in late time samples.
-
-%\section{Plots}
-
-
-
 \end{enumerate}
+
+
+\section{Plots} \label{sec:plots}
+
+\subsection{Plots for f)}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{plots/exc_f1.png}
+	\includegraphics[width=0.95\linewidth]{plots/exc_f2.png}
+	\caption{}
+	\label{fig:excf1}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{plots/exc_f3.png}
+	\includegraphics[width=0.95\linewidth]{plots/exc_f4.png}
+	\caption{}
+	\label{fig:excf3}
+\end{figure}
+
+\subsection{Plots for g)}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{plots/exc_g.png}
+	\caption{}
+	\label{fig:excg}
+\end{figure}
+
+\subsection{Plots for h)}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{plots/exc_h.png}
+	\caption{}
+	\label{fig:exch}
+\end{figure}
+
+
+
 
 \end{document}
