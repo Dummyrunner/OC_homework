@@ -44,7 +44,6 @@ disp('Exc f) done...')
 %% exc g)
 
 alphas = [0.1 1 10];
-% yopt = {};
 x1 = {};
 x2 = {};
 u = {};
@@ -59,33 +58,7 @@ for ialpha = 1:length(alphas)
 end
 
 % plot results for each alpha
-figure(30);clf;
-for ialpha = 1:length(alphas)
-    fig_g = figure(30);
-    sgtitle('Compare traj. for different $Q = \alpha I$ with $\alpha = 0.1,1,10$','Interpreter','latex');
-    
-    subplot(3,1,1)
-    hold on
-    title('State x1 over time, analytical solution')
-    plot(x1{ialpha},'DisplayName',['x1, $\alpha=$',num2str(alphas(ialpha))]);
-    hold off
-    legend('Interpreter','latex');
-    
-    subplot(3,1,2)
-    hold on
-    title('State x2 over time analytical solution')
-    plot(x2{ialpha},'DisplayName',['x2, $\alpha=$',num2str(alphas(ialpha))]);
-    hold off
-    legend('Interpreter','latex');
-
-    subplot(3,1,3)
-    hold on
-    title('Input u over time analytical solution')
-    plot(u{ialpha},'DisplayName',['u, $\alpha=$',num2str(alphas(ialpha))]);
-    hold off
-    legend('Interpreter','latex');
-end
-
+plot_excg;
 saveas(fig_g, '..\plots\exc_g.pdf');
 disp('Generated plots saved to file')
 
@@ -97,29 +70,10 @@ disp('Exc g) done...')
 tsamples = linspace(0,tf,N+1);
 [t_sim,x_sim] = ode45(@(x,t) sys_cont(x,t,Acont,Bcont,num.u,tf,N,h),tsamples,x0,odeset('RelTol',5e-10,'AbsTol',5e-10));
 
-fig_h = figure(40); clf;
-% sgtitle('Difference between exact- and euler discretization')
-% subplot(4,1,1)
-% hold on
-% title('Difference Simulated system with piecewise const. input vs. obtained traj. from quadprog ')
-% plot(x_sim(:,1),'DisplayName','x1_{sim}')
-% plot(num.x1,'DisplayName','x1_{quadprog}');
-% hold off
-% legend;
 
-subplot(2,1,1)
-hold on
-title('Difference Simulated state x1 vs. traj. obtained from quadprog() ')
-plot(0:N,num.x1 - x_sim(:,1),'DisplayName','error x1_{quadprog} - x1_{sim}')
-hold off
-legend;
-
-subplot(2,1,2)
-hold on
-title('Difference Simulated state x2 const. input vs. traj. obtained from quadprog ')
-plot(0:N,num.x2 - x_sim(:,2),'DisplayName','error x2_{quadprog} - x2_{sim}')
-hold off
-legend;
+plot_exch;
+saveas(fig_h, '..\plots\exc_h.pdf');
+disp('Generated plots saved to file')
 
 disp('Exc h) done...')
 
@@ -128,7 +82,7 @@ disp('Exc h) done...')
 disp('Excercise script finished successfully')
 
 
-%% --------------------------------------------------------------------
+%% --Function for Simulated Dynamics w/ piecewise constant u---------------
 function dx_cont = sys_cont(t,x,Acont,Bcont,discr_u,tf,N,h)
 %   Extracts current input signal from discrete input vector and determines
 %   the resulting time derivative of x in the cont. sys.
