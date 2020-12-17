@@ -4,6 +4,8 @@
 \usepackage{amsmath,amssymb}
 \usepackage{amsthm}
 \usepackage{xcolor}
+\usepackage{graphicx}
+%\usepackage{pdfpages}
 
 % Formatting text ranges
 \setlength{\textwidth}{450pt}
@@ -108,7 +110,7 @@
 
 \maketitle
 
-
+\section{Theory Part}
 \begin{enumerate}
 	\item[\bf a)] Discretize cost functional:\\
 	 	\begin{equation}
@@ -234,6 +236,17 @@ Plugging this into \eqref{eq:Admisscond} yields
 \[  \Aeq (-H\inv \Aeq \trp \nu) -\beq = 0 \Longleftrightarrow \nu = -(\Aeq H\inv \Aeq\trp)\inv \beq.\]
 Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is a optimal solution\\
 \todo remark on rank of $ \Aeq $?
+
+%\item[\bf f)] f) \includepdf[pages=-]{plots/exc_f1.pdf}
+
+
+\item[\bf g)] High values for $ \alpha $ let high state values be punished strongly. Therefore the optimal trajectory contains small values for $ \xone,\xtwo $.  Input values can increase, because their impact on the objective value is not as strong as the state's impact. Small values for $ \alpha $ have the opposite effect. 
+
+\item[\bf h)] Since the applied discretization in the quadratic programming approach is exact, the state values for the simulated and the optimized trajectorie should coincide at every $ t_k $. Nonetheless, small numerical inaccuracies amplify themselves over time. This leads to large differences in late time samples.
+
+%\section{Plots}
+
+
 
 \end{enumerate}
 
