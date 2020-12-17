@@ -99,10 +99,6 @@
 \newcommand{\jacF}{\jac F}
 \newcommand{\inv}{^{-1}}
 
-
-
-
-
 %opening
 \title{Optimal Control WS20/21: Homework 1}
 \author{Daniel Bergmann}
@@ -112,7 +108,7 @@
 \maketitle
 
 \section{Theory Part}
-First, all answers to theoretical questions are given. The regarding plots can be found in \ref{sec:plots}
+First, all answers to theoretical questions are given. The regarding plots can be found in section \ref{sec:plots}.
 \begin{enumerate}
 	\item[\bf a)] Discretize cost functional:\\
 	 	\begin{equation}
@@ -240,7 +236,7 @@ Plugging this into \eqref{eq:Admisscond} yields for $ \Aeq $ with full rank
 Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is an optimal solution.\\
 
 
-\item[\bf f)] -
+\item[\bf f)] No theoretical question ask, see section \ref{sec:plots}.
 \item[\bf g)] High values for $ \alpha $ let high state values be punished strongly. Therefore the optimal trajectory contains small values for $ \xone,\xtwo $.  Input values can increase, because their impact on the objective value is not as strong as the state's impact. Small values for $ \alpha $ have the opposite effect. 
 
 \item[\bf h)] Since the applied discretization in the quadratic programming approach is exact, the state values for the simulated and the optimized trajectorie should coincide at every $ t_k $. Nonetheless, small numerical inaccuracies amplify themselves over time. This leads to large differences in late time samples.
@@ -254,14 +250,14 @@ Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is an optimal
 	\centering
 	\includegraphics[width=0.95\linewidth]{plots/exc_f1.png}
 	\includegraphics[width=0.95\linewidth]{plots/exc_f2.png}
-	\caption{}
+	\caption{Plot for Exc f)}
 	\label{fig:excf1}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\linewidth]{plots/exc_f3.png}
 	\includegraphics[width=0.95\linewidth]{plots/exc_f4.png}
-	\caption{}
+	\caption{Plot for Exc f)}
 	\label{fig:excf3}
 \end{figure}
 
@@ -269,7 +265,7 @@ Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is an optimal
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\linewidth]{plots/exc_g.png}
-	\caption{}
+	\caption{Plot for Exc g)}
 	\label{fig:excg}
 \end{figure}
 
@@ -277,7 +273,7 @@ Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is an optimal
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\linewidth]{plots/exc_h.png}
-	\caption{}
+	\caption{Plot for Exc h)}
 	\label{fig:exch}
 \end{figure}
 
