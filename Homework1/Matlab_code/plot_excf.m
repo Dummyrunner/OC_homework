@@ -64,7 +64,7 @@ legend;
 
 subplot(3,1,2)
 hold on
-title('State x1 over time, analytical vs. numerical solution')
+title('State x2 over time, analytical vs. numerical solution')
 plot(0:N,ana.x2,'DisplayName','x2_{ana}')
 plot(0:N,num.x2,'DisplayName','x2_{num}')
 plot(0:N,eul.x2,'DisplayName','x2_{eul}')
@@ -92,7 +92,7 @@ legend;
 
 subplot(3,1,2)
 hold on
-title('State x1 over time, difference between analytical  and numerical solution')
+title('State x2 over time, difference between analytical  and numerical solution')
 plot(0:N,e.x2,'DisplayName','error x2')
 hold off
 legend;
@@ -116,7 +116,7 @@ legend;
 
 subplot(3,1,2)
 hold on
-title('State x1 over time, difference exact- and euler discretization')
+title('State x2 over time, difference exact- and euler discretization')
 plot(0:N,eeul.x2,'DisplayName','error x2')
 hold off
 legend;
