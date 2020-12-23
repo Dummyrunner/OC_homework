@@ -226,14 +226,14 @@ We know that for convex problems they are neccessary and sufficient. Since $ Q,R
 It holds automatically, since we have no inequality constraints. 
 Further, we compute the condition on the Lagrangian of \eqref{eq:quadproblem} at an optimal point $ \yopt $
 \begin{equation}
-	\grad_y	L(\yopt,\lambda,\nu) = H\yopt + \nu \trp (\Aeq) \overset{!}{=} 0. \label{eq:Lagrcond}
+	\grad_y	L(\yopt,\lambda,\nu) = H\yopt + \nu \trp \Aeq \overset{!}{=} 0. \label{eq:Lagrcond}
 \end{equation}
 Additionally, the point $ \yopt $ has to be admissible and hence \begin{equation}
 	\Aeq \yopt - \beq = 0 \label{eq:Admisscond}
 \end{equation}
 must hold.
 By rearranging \eqref{eq:Lagrcond}, we obtain
-\[ y = - H\inv\Aeq \trp \nu. \]
+\[ \yopt = - H\inv\Aeq \trp \nu. \]
 Note, that $ H $ is invertible since it is positive definite.
 Plugging this into \eqref{eq:Admisscond} yields for $ \Aeq $ with full rank
 \[  \Aeq (-H\inv \Aeq \trp \nu) -\beq = 0 \Longleftrightarrow \nu = -(\Aeq H\inv \Aeq\trp)\inv \beq.\]
