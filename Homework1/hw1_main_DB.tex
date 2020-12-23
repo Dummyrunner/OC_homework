@@ -125,9 +125,9 @@ First, all answers to theoretical questions are given. The regarding plots can b
 		
 		\begin{align}
 			\xkplus &= e^{Ah(k+1)} \xnull + \int_{0}^{(k+1)h} e^{A((k+1)h-\tau)} Bu(\tau) d\tau\\
-					&= e^{Ah}\left[ e^{Akh}\xnull + \int_{0}^{kh} e^{A(kh-\tau)}Bu(\tau) d\tau\right] + \int_{kh}^{(k+1)h} e^{A(hT+h-\tau)}Bu(\tau) d\tau.
+					&= e^{Ah}\left[ e^{Akh}\xnull + \int_{0}^{kh} e^{A(kh-\tau)}Bu(\tau) d\tau\right] + \int_{kh}^{(k+1)h} e^{A(kh+h-\tau)}Bu(\tau) d\tau.
 		\end{align}
-		Where we assume that the steering signal $ u $ is constant between the discretization time samples $ \tk. $
+		We assume that the steering signal $ u $ is constant between the discretization time samples $ \tk. $
 		We simplify this expression  by substituting with $ v(\tau) = kh + h - \tau $ and obtain
 		\begin{align}
 			\xkplus &= e^{Ah}\xk - \left( \int_{v(kh)}^{v((k+1)h)} e^{Av} dv \right) B\uk\\
@@ -156,7 +156,7 @@ First, all answers to theoretical questions are given. The regarding plots can b
 	\begin{equation}
 		\begin{aligned}
 		& \underset{x,u}{\text{min.}}
-		& & \sum_{k=ß}^{N-1} g(x,u) =  \xN\trp Q \xN + \sum_{k = 0}^{N-1} \xk \trp Q \xk + \uk\trp R \uk\\
+		& & \sum_{k=0}^{N-1} g(x,u) =  \xN\trp Q \xN + \sum_{k = 0}^{N-1} \xk \trp Q \xk + \uk\trp R \uk\\
 		& \text{subject to}
 		& & \xkplus = \Ad \xk + \Bd \uk\\
 		& & &\xnull = \xbar\\ 
@@ -168,7 +168,8 @@ First, all answers to theoretical questions are given. The regarding plots can b
 		& \underset{y}{\text{min.}}
 		& & \half y\trp H y + f\trp y + d\\
 		& \text{subject to}
-		& & \Aeq y = \beq.
+		& & \Aeq y = \beq\\
+		& & &\Aineq y\leq \bineq.
 		\end{aligned}
 	\end{equation}
 	
@@ -213,6 +214,9 @@ First, all answers to theoretical questions are given. The regarding plots can b
  \end{align*}
 The first row of blocks implements the initial condition $ \xnull = \xbar $.
 
+We have no inequality conditionts to implement, hence we have no inequality constraints. 
+%($ \Aineq = 0 \in \R^{1\times \dim y}, \bineq= 0 \in \R $).
+
 \item[\bf e)] Formulating  conditions at an optimum.\\
 For stating criteria on a minimum of our problem, we use the KKT conditions.
 We know that for convex problems they are neccessary and sufficient. Since $ Q,R \succ 0$ and hence $ H \succ 0 $, the quadratic objective is convex. The equality constraints are affine and we have no inequality constraints. Thus the given problem is convex. For the KKT conditions to hold in a point $ y$, a CQ has to be satisfied. We use the Linear Independence Constraint Qualification (LICQ).
@@ -236,7 +240,7 @@ Plugging this into \eqref{eq:Admisscond} yields for $ \Aeq $ with full rank
 Hence, \[ \yopt = H\inv \Aeq\trp (\Aeq H\inv \Aeq\trp)\inv \beq \] is an optimal solution.\\
 
 
-\item[\bf f)] No theoretical question ask, see section \ref{sec:plots}.
+\item[\bf f)] No theoretical question asked, see section \ref{sec:plots}.
 \item[\bf g)] High values for $ \alpha $ let high state values be punished strongly. Therefore the optimal trajectory contains small values for $ \xone,\xtwo $.  Input values can increase, because their impact on the objective value is not as strong as the state's impact. Small values for $ \alpha $ have the opposite effect. 
 
 \item[\bf h)] Since the applied discretization in the quadratic programming approach is exact, the state values for the simulated and the optimized trajectorie should coincide at every $ t_k $. Nonetheless, small numerical inaccuracies amplify themselves over time. This leads to large differences in late time samples.
