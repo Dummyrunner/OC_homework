@@ -1,0 +1,157 @@
+\documentclass[]{article}
+
+% include Packages
+%\usepackage{pdfpages}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+
+% Formatting text ranges
+\setlength{\textwidth}{450pt}
+\setlength{\textheight}{685pt}
+\setlength{\topmargin}{-40pt}
+\setlength{\hoffset}{-15mm}
+
+% Define Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem} % allow not enumerated theorems
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+% Define custom commands
+\newcommand{\yopt}{y^*}
+\newcommand{\todo}{{\color{red} TODO!}}
+\newcommand{\ind}[2]{{#1}_{\mathrm{#2}}}
+\newcommand{\trp}{^T}
+\newcommand{\fx}{f(x)}
+\newcommand{\fsigx}{f(\sigma x)}
+\newcommand{\fxtrp}{f \trp (x)}
+\newcommand{\xone}{x_1}
+\newcommand{\xtwo}{x_2}
+\newcommand{\dotx}{\dot x}
+\newcommand{\dotxone}{\dotx_1}
+\newcommand{\dotxtwo}{\dotx_2}
+\newcommand{\Rn}{\mathbb{R}^n}
+\newcommand{\Nset}{\mathbb{N}}
+\newcommand{\forntoinf}{\overset{n \rightarrow \infty}{\longrightarrow}}
+\newcommand{\jacf}{\dfrac{\partial }{\partial x} \fx}
+\renewcommand{\brack}[1]{\left[ #1 \right]}
+\newcommand{\parenth}[1]{\left( #1 \right)}
+\newcommand{\jacfbrack}{\brack{\jacf}}
+\newcommand{\matleq}{\preccurlyeq}
+\newcommand{\norm}[1]{\parallel \! \! #1 \! \! \parallel}
+\newcommand{\partialx}{\frac{\partial}{\partial x}}
+\newcommand{\dsig}{\mathrm{d} \sigma}
+\newcommand{\intsigma}{\int_{0}^{1} \partialx \fsigx x \dsig}
+\newcommand{\Qx}{Q(x)}
+\newcommand{\Vx}{V(x)}
+\newcommand{\xtrp}{x \trp}
+\newcommand{\gammaxsig}{\gamma(x,\sigma)}
+\newcommand{\xn}{x_n}
+\newcommand{\xnull}{x_0}
+\newcommand{\unull}{u_0}
+\newcommand{\xN}{x_N}
+\newcommand{\xk}{x_k}
+\newcommand{\uk}{u_k}
+\newcommand{\xtrpn}{x_n \trp}
+\newcommand{\fxn}{f(\xn)}
+\newcommand{\dotVx}{\dot{V}(x)}
+\newcommand{\dVdtx}{\frac{\mathrm{d} V(x)}{\mathrm{d} t}}
+\newcommand{\partialVx}{\frac{\partial V(x)} {\partial x}}
+\newcommand{\matricks}[4]{\begin{pmatrix}#1 & #2 \\ #3 & #4 \end{pmatrix}}
+\newcommand{\twovector}[2]{\begin{pmatrix}{ #1 }\\{ #2 }\end{pmatrix}}
+\newcommand{\Ad}{A_d}
+\newcommand{\Bd}{B_d}
+\newcommand{\xkplus}{x_{k+1}}
+%\newcommand{\dotx}{\dot{x}}
+\newcommand{\tk}{t_{k}}
+\newcommand{\tkplus}{t_{k+1}}
+\newcommand{\Aeul}{\ind{A}{eul}}
+\newcommand{\Beul}{\ind{B}{eul}}
+\newcommand{\optmin}{\mathrm{min}.}
+\newcommand{\Aeq}{\ind{A}{eq}}
+\newcommand{\beq}{\ind{b}{eq}}
+\newcommand{\Aeqx}{\Aeq^x}
+\newcommand{\Aequ}{\Aeq^u}
+\newcommand{\Aineq}{\ind{A}{{  in}}}
+\newcommand{\bineq}{\ind{b}{{  in}}}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\xtilde}{\tilde{x}}
+\newcommand{\vectorthree}[3]{\begin{pmatrix}
+		#1 \\ #2 \\ #3
+\end{pmatrix}}
+\newcommand{\vectortwo}[2]{\begin{pmatrix}
+		#1 \\ #2
+\end{pmatrix}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\grad}{\nabla}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+%\newcommand{\Rn}{\mathbb{R}^n}
+\newcommand{\Rm}{\mathbb{R}^m}
+\newcommand{\Rp}{\mathbb{R}^p}
+\newcommand{\Fx}{F(x)}
+\newcommand{\jac}{J}
+\newcommand{\jacF}{\jac F}
+\newcommand{\inv}{^{-1}}
+\newcommand{\fnull}{f_0}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\writeset}[1]{\{#1\}}
+\newcommand{\Vk}{V_k}
+\newcommand{\Vnull}{V_0}
+\newcommand{\Vkplus}{V_{k+1}}
+%opening
+\title{Optimal Control WS20/21: Homework 2}
+\author{Daniel Bergmann}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Problem 1}
+		\begin{enumerate}
+			\item[a)] Formulating the problem as an discrete-time, infinite-horizon o. c. problem yields
+				\begin{equation}
+				\begin{aligned}
+				& \underset{u_0,u_1,\dots}{\text{min.}}
+				& & \sum_{k=0}^{\infty} \fnull(\xk,\uk) =  0.9^k \fnull(\xk,\uk)\\
+				& \text{subject to}
+				& & \xkplus = f(\xk,\uk),\\
+				& & & \xk \in \X = \writeset{\xi_1,\dots,\xi_8},\\
+				& & & \uk \in \U = \writeset{0,1,2},\\
+				& & &\xnull = \xi_1,\\ 
+				\end{aligned}
+				\end{equation}
+				where the dynamics $ f: \X \times \U \longrightarrow \X $ are defined by the arrows in the graph.
+				
+				The Value function iteration is defined by the Bellman operator
+				\begin{equation}
+					\Vkplus(x) = T\Vk(x) = \underset{u \in \U}{\min} \writeset{\fnull(x,u) + \alpha \Vk(x)}  \quad \text{with} \quad \alpha= 0.9.
+				\end{equation}
+				Evaluated for this particular problem, this yields
+				\begin{align}
+					\begin{split}
+						\Vkplus(\xi_1) &= \min_{u \in \U} \writeset{1+0.9 \Vk(\xi_1),1+0.9\Vk(\xi_1))} = 1+ 0.9\Vk(\xi_1)\\
+						\Vkplus(\xi_2) &= \min_{u \in \U} \writeset{3+0.9 \Vk(\xi_1),6+0.9\Vk(\xi_1)),3+0.9\Vk(\xi_1))} = 2 + 0.9\Vk(\xi_2),\\
+						\Vkplus(\xi_3) &= \min_{u \in \U} \writeset{1+0.9\Vk(\xi_3))},\\
+						\Vkplus(\xi_4) &= \min_{u \in \U} \writeset{2+0.9\Vk(\xi_4))},\\
+						\Vkplus(\xi_5) &= \min_{u \in \U} \writeset{0+0.9\Vk(\xi_5))},\\
+						\Vkplus(\xi_6) &= \min_{u \in \U} \writeset{1+0.9\Vk(\xi_6))},\\
+						\Vkplus(\xi_7) &= \min_{u \in \U} \writeset{2+0.9\Vk(\xi_7))},\\
+						\Vkplus(\xi_8) &= \min_{u \in \U} \writeset{0+0.9\Vk(\xi_8))},
+					\end{split}
+				\end{align}
+				starting with an arbitrary inital value function $ \Vnull: \X \longrightarrow \R $.
+			\item[b)]
+		\end{enumerate} 
+\subsection*{Problem 2}
+		\begin{enumerate}
+			\item[a)]
+			\item[b)]
+		\end{enumerate}	
+\end{document}
