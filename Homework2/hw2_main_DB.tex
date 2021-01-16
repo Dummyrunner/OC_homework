@@ -105,6 +105,7 @@
 \newcommand{\Vk}{V_k}
 \newcommand{\Vnull}{V_0}
 \newcommand{\Vkplus}{V_{k+1}}
+\newcommand{\minVit}[6]{\min_{u \in \U} \writeset{#1+0.9\Vk(\xi_{#2}), #3+0.9\Vk(\xi_{#4}),#5+0.9\Vk(\xi_#6) }}
 %opening
 \title{Optimal Control WS20/21: Homework 2}
 \author{Daniel Bergmann}
@@ -136,14 +137,14 @@
 				Evaluated for this particular problem, this yields
 				\begin{align}
 					\begin{split}
-						\Vkplus(\xi_1) &= \min_{u \in \U} \writeset{1+0.9 \Vk(\xi_1),1+0.9\Vk(\xi_1))} = 1+ 0.9\Vk(\xi_1)\\
-						\Vkplus(\xi_2) &= \min_{u \in \U} \writeset{3+0.9 \Vk(\xi_1),6+0.9\Vk(\xi_1)),3+0.9\Vk(\xi_1))} = 2 + 0.9\Vk(\xi_2),\\
-						\Vkplus(\xi_3) &= \min_{u \in \U} \writeset{1+0.9\Vk(\xi_3))},\\
-						\Vkplus(\xi_4) &= \min_{u \in \U} \writeset{2+0.9\Vk(\xi_4))},\\
-						\Vkplus(\xi_5) &= \min_{u \in \U} \writeset{0+0.9\Vk(\xi_5))},\\
-						\Vkplus(\xi_6) &= \min_{u \in \U} \writeset{1+0.9\Vk(\xi_6))},\\
-						\Vkplus(\xi_7) &= \min_{u \in \U} \writeset{2+0.9\Vk(\xi_7))},\\
-						\Vkplus(\xi_8) &= \min_{u \in \U} \writeset{0+0.9\Vk(\xi_8))},
+						\Vkplus(\xi_1) &= \min_{u \in \U} \writeset{1+0.9 \Vk(\xi_2),1+0.9\Vk(\xi_2)},\\
+						\Vkplus(\xi_2) &= \min_{u \in \U} \writeset{3+0.9 \Vk(\xi_7),6+0.9\Vk(\xi_5),3+0.9\Vk(\xi_4)},\\
+						\Vkplus(\xi_3) &= \min_{u \in \U} \writeset{1+0.9\Vk(\xi_4), 2+0.9\Vk(\xi_6),3+0.9\Vk(\xi_5) },\\
+						\Vkplus(\xi_4) &= \minVit{2}{7}{6}{8}{3}{6},\\ %\minVit{}{}{}{}{}{}
+						\Vkplus(\xi_5) &= \minVit{0}{4}{0}{4}{1}{6},\\
+						\Vkplus(\xi_6) &= \minVit{5}{1}{1}{7}{1}{8},\\
+						\Vkplus(\xi_7) &= \minVit{2}{8}{2}{8}{2}{8},\\
+						\Vkplus(\xi_8) &= \minVit{0}{8}{0}{8}{0}{8}
 					\end{split}
 				\end{align}
 				starting with an arbitrary inital value function $ \Vnull: \X \longrightarrow \R $.
