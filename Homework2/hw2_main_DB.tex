@@ -103,7 +103,12 @@
 \newcommand{\U}{\mathcal{U}}
 \newcommand{\writeset}[1]{\{#1\}}
 \newcommand{\Vk}{V_k}
-\newcommand{\Vnull}{V_0}
+\newcommand{\Vopt}{\Vind{*}}
+\newcommand{\Vind}[1]{V^#1}
+\newcommand{\Vone}{\Vind{1}}
+\newcommand{\Vtwo}{\Vind{2}}
+\newcommand{\Vzero}{\Vind{0}}
+\newcommand{\Vnull}{\Vind{0}}
 \newcommand{\Vkplus}{V_{k+1}}
 \newcommand{\minVit}[6]{\min_{u \in \U} \writeset{#1+0.9\Vk(\xi_{#2}), #3+0.9\Vk(\xi_{#4}),#5+0.9\Vk(\xi_#6) }}
 %opening
@@ -131,7 +136,7 @@
 				where the dynamics $ f: \X \times \U \longrightarrow \X $ are defined by the arrows in the graph.
 				
 				The Value function iteration is defined by the Bellman operator
-				\begin{equation}
+				\begin{equation} \label{eq:BellmanOp}
 					\Vkplus(x) = T\Vk(x) = \underset{u \in \U}{\min} \writeset{\fnull(x,u) + \alpha \Vk(x)}  \quad \text{with} \quad \alpha= 0.9.
 				\end{equation}
 				Evaluated for this particular problem, this yields
@@ -140,15 +145,36 @@
 						\Vkplus(\xi_1) &= \min_{u \in \U} \writeset{1+0.9 \Vk(\xi_2),1+0.9\Vk(\xi_2)},\\
 						\Vkplus(\xi_2) &= \min_{u \in \U} \writeset{3+0.9 \Vk(\xi_7),6+0.9\Vk(\xi_5),3+0.9\Vk(\xi_4)},\\
 						\Vkplus(\xi_3) &= \min_{u \in \U} \writeset{1+0.9\Vk(\xi_4), 2+0.9\Vk(\xi_6),3+0.9\Vk(\xi_5) },\\
-						\Vkplus(\xi_4) &= \minVit{2}{7}{6}{8}{3}{6},\\ %\minVit{}{}{}{}{}{}
+						\Vkplus(\xi_4) &= \minVit{2}{7}{6}{8}{3}{6},\\
 						\Vkplus(\xi_5) &= \minVit{0}{4}{0}{4}{1}{6},\\
 						\Vkplus(\xi_6) &= \minVit{5}{1}{1}{7}{1}{8},\\
 						\Vkplus(\xi_7) &= \minVit{2}{8}{2}{8}{2}{8},\\
-						\Vkplus(\xi_8) &= \minVit{0}{8}{0}{8}{0}{8}
+						\Vkplus(\xi_8) &= \minVit{0}{8}{0}{8}{0}{8},
 					\end{split}
 				\end{align}
 				starting with an arbitrary inital value function $ \Vnull: \X \longrightarrow \R $.
 			\item[b)]
+				Matlab Results \todo
+			
+			\item[c)] We suppose
+			\begin{equation}
+				\Vnull(\xi) \leq T\Vnull(\xi) \quad \forall_{\xi \in \X} \label{eq:InitAssumption},
+			\end{equation}
+			for an initial function $ \Vnull $ for a value function iteration with the Bellman Operator, defined in \eqref{eq:BellmanOp}.
+			From the lectures, we have the following properties.
+			\begin{align}
+				\norm{T\Vone - T\Vtwo}_\infty &\leq \alpha \norm{\Vone - \Vtwo}_\infty \quad &\text{(Contraction)} \label{eq:contraction}\\
+				\Vone(\xi) &\leq \Vtwo(\xi) \quad \forall_{\xi \in \X} \Longrightarrow T\Vone(\xi) \leq T\Vtwo(\xi) \quad \forall_{\xi \in \X} \quad &\text{(Monotonicity)} \label{eq:monotonicity}\\
+				\Vopt \text{ solves the Bellman Equation }&  \Vopt \text{ is the Value function, since we have discounted costs.} \label{eq:sufficientBE}
+			\end{align}
+			First we show, that the iteration converges to the value function of the problem. Since \eqref{eq:contraction} holds and   $ \alpha \in (0,1) $,we deduce the convergence of  $ \writeset{\Vk}_{k \in \N} $ by the Banach-Fixed-Point-Theorem. Since we have such a limit $ \lim\limits_{k \rightarrow \infty} \Vk \longrightarrow \Vopt $, it has to satisfy the fixed point property $ T\Vopt = \Vopt $. Hence it satisfies the Bellman equation and \eqref{eq:sufficientBE} verifies $ \Vopt $ as the value function of our problem.
+			
+			Second, it remains to show that $ \Vnull(\xi) \leq \Vopt(\xi) \forall_{\xi \in \X} $ holds.\\
+			By assumption \eqref{eq:InitAssumption} and the monotonicity property \eqref{eq:monotonicity}, we infer inductively, that $ \Vk(\xi) \leq \Vkplus(\xi) $ for all $ \xi \in \X $. Thus, the sequence $ \writeset{\Vk(\xi)}_{k\in \N_0} $ is non-decreasing for any $ \xi \in \X $. This proves the claim $ \Vnull(\xi) \leq \Vopt(\xi) \forall_{\xi \in \X } $.
+			
+			
+			
+			
 		\end{enumerate} 
 \subsection*{Problem 2}
 		\begin{enumerate}
