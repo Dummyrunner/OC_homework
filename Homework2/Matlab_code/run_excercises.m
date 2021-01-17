@@ -55,4 +55,21 @@ msg = 'The Value Function yields the optimal state feedback k: X -> U';
 disp(msg)
 k
 
-% 
+% Compute corresponding optimal Feedback
+x0 = 1;
+
+x = x0;
+cnt = 1;
+opt_idx = [];
+uopt = [];
+
+while x ~= 8
+    uopt(cnt) = k(x);
+    x = f(x,k(x)+1);   
+    cnt = cnt+1;
+end
+
+msg = 'Input signal sequence, determined by statefeedback k';
+disp(msg)
+uopt
+
