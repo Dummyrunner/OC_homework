@@ -110,7 +110,11 @@
 \newcommand{\Vzero}{\Vind{0}}
 \newcommand{\Vnull}{\Vind{0}}
 \newcommand{\Vkplus}{V_{k+1}}
+\newcommand{\Vtil}{\tilde{V}}
 \newcommand{\minVit}[6]{\min_{u \in \U} \writeset{#1+0.9\Vk(\xi_{#2}), #3+0.9\Vk(\xi_{#4}),#5+0.9\Vk(\xi_#6) }}
+\newcommand{\VstateVal}[2]{V(\xi_#1) &= #2}
+\newcommand{\kstateVal}[2]{k(\xi_#1) &= #2}
+\newcommand{\util}{\tilde{u}}
 %opening
 \title{Optimal Control WS20/21: Homework 2}
 \author{Daniel Bergmann}
@@ -154,7 +158,36 @@
 				\end{align}
 				starting with an arbitrary inital value function $ \Vnull: \X \longrightarrow \R $.
 			\item[b)]
-				Matlab Results \todo
+				Value function $ V:\R^8 \longrightarrow \R $, obtained after 1000 value function iterations:\\
+				
+				\begin{align}
+					\begin{split} \label{eq:VVals}
+				    \VstateVal{1}{3.61}\\
+					\VstateVal{2}{4.80}\\
+					\VstateVal{3}{2.90}\\
+					\VstateVal{4}{3.80}\\
+					\VstateVal{5}{1.90}\\
+					\VstateVal{6}{1.00}\\
+					\VstateVal{7}{2.00}\\
+					\VstateVal{8}{0.00}.
+					\end{split}
+				\end{align}
+				The values in \eqref{eq:VVals} induce the following state feedback:\\
+				\begin{align} \label{eq:kVals}
+					\begin{split}
+					\kstateVal{1}{u_2}\\
+					\kstateVal{2}{u_1}\\
+					\kstateVal{3}{u_1}\\
+					\kstateVal{4}{u_1}\\
+					\kstateVal{5}{u_2}\\
+					\kstateVal{6}{u_2}\\
+					\kstateVal{7}{u_0}\\
+					\kstateVal{8}{u_0}.
+					\end{split}
+				\end{align}
+			For the initial state $ \xnull = \xi_1 $, the state-feedback given in \eqref{eq:kVals} yields the optimal input sequence
+			\[ u^* = \left(2 \quad 1 \quad 2\right), \] that steers the state to the terminal state $ \xi_8  $ via the route $ \xi_1,\xi_3,\xi_6,\xi_8 $.
+			
 			
 			\item[c)] We suppose
 			\begin{equation}
@@ -172,9 +205,54 @@
 			Second, it remains to show that $ \Vnull(\xi) \leq \Vopt(\xi) \forall_{\xi \in \X} $ holds.\\
 			By assumption \eqref{eq:InitAssumption} and the monotonicity property \eqref{eq:monotonicity}, we infer inductively, that $ \Vk(\xi) \leq \Vkplus(\xi) $ for all $ \xi \in \X $. Thus, the sequence $ \writeset{\Vk(\xi)}_{k\in \N_0} $ is non-decreasing for any $ \xi \in \X $. This proves the claim $ \Vnull(\xi) \leq \Vopt(\xi) \forall_{\xi \in \X } $.
 			
+			\item[d)] Maximization Problem:
+			
+			\begin{equation} \label{eq:maxProblem}
+			\begin{aligned}
+			& \underset{V(\xi_1),\dots,V(\xi_n)}{\text{max.}}
+			& & \sum_{k=0}^{n} V(\xi_i)\\
+			& \text{subject to}
+			& & V(\xi_i)  \leq TV(\xi_i)\quad\forall_{ i= 1,\dots,n}.\\
+			\end{aligned}
+			\end{equation}
+			To show: $ \Vopt $ is a solution to the maximization problem given above.
+			Proof by contradiction. Suppose, there exists an admissible Function $ \Vtil :\R^n \longrightarrow \R$ with \begin{equation}
+				\Vtil(\xi_i) > \Vopt(\xi_i) \label{eq:counter}
+			\end{equation}  for at least one $ i \in \writeset{1,\dots,n} $. Since $ \Vtil $ is admissible for the given max. problem, we know that $ \Vtil(\xi_i) \leq T\Vtil(\xi_i) \quad \forall_{i\in \writeset{1,\dots,n}} $. From excercise c) we know, that hence $ \Vtil(\xi_i) \leq T^k\Vtil(\xi_i) \leq \Vopt(\xi_i)$ holds for all $ i \in  \writeset{1,\dots,n} $ and for all $ k \in \N $.  This clearly contradicts \eqref{eq:counter}. Thus, $ \Vopt $ maximizes the objective of the given problem.
+			
+			\item[e)] Transform \eqref{eq:maxProblem} into
+			\begin{equation} \label{eq:maxProblemArgmax}
+				\begin{aligned}
+				& \Vopt= \underset{V(\xi_1),\dots,V(\xi_n)}{\text{ arg max.}}
+				& & \sum_{k=0}^{n} V(\xi_i)\\
+				& \text{subject to}
+				& & V(\xi_i)  \leq \fnull (\xi_i,u)+ \alpha V(f(\xi,u))\\
+				& & &\forall_{u\in \U(\xi_i)} \forall_{ i= 1,\dots,n}.\\
+				\end{aligned}
+			\end{equation}
+			As shown in d), $ \Vopt $ maximizes the objective of problem \eqref{eq:maxProblem}. It remains to show, that the constraints of problems \eqref{eq:maxProblem} and \eqref{eq:maxProblemArgmax} are equivalent. The operator $ T $ is defined by the Bellman Equation, as written in \eqref{eq:BellmanOp}.
+			We have
+			\begin{align}
+			\begin{split}
+				V(\xi_i)  \leq TV(\xi_i) &= \underset{u \in \U}{\min} \writeset{\fnull(\xi_i,u) + \alpha \Vk(\xi_i)}\\
+				&\leq \fnull(\xi_i,\util) + \alpha \Vk(\xi_i)
+			\end{split}
+			\end{align}
+			for any input signal $ \util \in \U $. This arises directly from the definition of the minimum. Thus, \eqref{eq:maxProblem} and \eqref{eq:maxProblemArgmax} denote the same problem.
+			
+			It remains to formulate this as a linear program
+			\begin{equation} \label{eq:maxProblemArgmax}
+				\begin{aligned}
+				&\Vopt =  \underset{V(\xi_1),\dots,V(\xi_n)}{\text{ arg max.}}
+				& & \sum_{k=0}^{n} V(\xi_i)\\
+				& \text{subject to}
+				& & V(\xi_i)  \leq \fnull (\xi_i,u)+ \alpha V(f(\xi,u))\\
+				& & &\forall_{u\in \U(\xi_i)} \forall_{ i= 1,\dots,n}.\\
+				\end{aligned}
+			\end{equation}
 			
 			
-			
+				 
 		\end{enumerate} 
 \subsection*{Problem 2}
 		\begin{enumerate}
