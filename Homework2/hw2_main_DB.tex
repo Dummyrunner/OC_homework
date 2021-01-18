@@ -223,7 +223,7 @@
 			\item[e)] Transform \eqref{eq:maxProblem} into
 			\begin{equation} \label{eq:maxProblemArgmax}
 				\begin{aligned}
-				& \Vopt= \underset{V(\xi_1),\dots,V(\xi_n)}{\text{ arg max.}}
+				 \Vopt= &\underset{V(\xi_1),\dots,V(\xi_n)}{\text{ arg max.}}
 				& & \sum_{k=0}^{n} V(\xi_i)\\
 				& \text{subject to}
 				& & V(\xi_i)  \leq \fnull (\xi_i,u)+ \alpha V(f(\xi,u))\\
@@ -243,14 +243,15 @@
 			It remains to formulate this as a linear program
 			\begin{equation} \label{eq:maxProblemArgmax}
 				\begin{aligned}
-				&\Vopt =  \underset{V(\xi_1),\dots,V(\xi_n)}{\text{ arg max.}}
-				& & \sum_{k=0}^{n} V(\xi_i)\\
+				\Vopt &=  \underset{V}{\text{ arg max.}}
+				& & c\trp V\\
 				& \text{subject to}
-				& & V(\xi_i)  \leq \fnull (\xi_i,u)+ \alpha V(f(\xi,u))\\
-				& & &\forall_{u\in \U(\xi_i)} \forall_{ i= 1,\dots,n}.\\
+				& & AV \leq b.\\
 				\end{aligned}
 			\end{equation}
 			
+			 With $ V = (V(\xi_1),\dots,V\xi_n)\trp $, the objective $\mathrm{max.} \ \sum_{k=0}^{n} V(\xi_i) $ is the same as $ \mathrm{min.} \ c\trp V $ with \[ c = -(1,\dots,1)\trp \in \Rn. \]
+			 Now we rewrite the constraints as a linear inequality.
 			
 				 
 		\end{enumerate} 
