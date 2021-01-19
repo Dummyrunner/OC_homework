@@ -251,9 +251,16 @@
 			\end{equation}
 			
 			 With $ V = (V(\xi_1),\dots,V\xi_n)\trp $, the objective $\mathrm{max.} \ \sum_{k=0}^{n} V(\xi_i) $ is the same as $ \mathrm{min.} \ c\trp V $ with \[ c = -(1,\dots,1)\trp \in \Rn. \]
-			 Now we rewrite the constraints as a linear inequality.
-			
-				 
+			 Now we rewrite the constraints as a linear inequality $ AV = b $.
+			 
+			 For a state $ \xi_i \in \X $, the inequality
+			 \begin{align}
+%			 \begin{split}
+			  	&V(\xi_i) \leq \fnull (\xi,u) +  \alpha V(f(\xi_i,u))\notag\\
+			 \Longleftrightarrow \ &V(\xi_i) - \alpha V(f(\xi_i,u)) \leq \fnull(\xi_i,u) \label{eq:linineq}
+%			 \end{split}
+			 \end{align}
+			has to hold for each possible input $ u \in \U $, which leads to three scalar inequalities per state. Such an inequality can be represented with a line in the matrix $ A $, with an $ 1 $ in the  $ i $-th column and $ -\alpha $ in the $ f(\xi_i,u) $-th column. The corresponding entry of the vector $ b $ is $ \fnull(\xi_i,u) $.				 
 		\end{enumerate} 
 \subsection*{Problem 2}
 		\begin{enumerate}
