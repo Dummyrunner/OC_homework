@@ -1,9 +1,13 @@
-%% Problem 1
+%% Problem 
 
-%% exc b)
 % Init Val. Function with arbitrarily chosen Init. cond.
 V0 = zeros(8,1);
 alpha = 0.9; % discount factor
+n = 8; % amount of possible states
+m = 3; % amount of possible inputs in each state
+
+%% exc b)
+
 
 % system dynamics given by x_k+1 = f(xk,uk)
 f = [2 2 3; ...
@@ -27,9 +31,9 @@ f0 = [1 1 1;...
 
 % Value Function Iteration
 V = V0;
-n = 1000;
-for iter = 1:n
-    for istate = 1:8 % iterate over 8 dimensions of statespace
+it = 1000;
+for iter = 1:it
+    for istate = 1:n % iterate over 8 dimensions of statespace
         V(istate) = min([f0(istate,1) + alpha*V(f(istate,1)),...
             f0(istate,2) + alpha* V(f(istate,2) ),...
             f0(istate,3) + alpha*V(f(istate,3)) ]);
@@ -39,11 +43,11 @@ end
 % display resulting Value function
 msg = ['The Value function, obtained by iterating over ',num2str(n),' iterations is',newline,newline,'V='];
 disp(msg)
-disp(V)
+disp(V')
 
 % Optimal feedback u = k(x), s. t. V(f(x,k(x)) minimal
-k = zeros(8,1);
-for x = 1:8
+k = zeros(1,n);
+for x = 1:n
 %     get input signal that minimizes V-Value of next state
     [~,idx] = min( V(f(x,:)));
     idx = idx(1); % in case of >1 minima
@@ -72,4 +76,21 @@ end
 msg = 'Input signal sequence, determined by statefeedback k';
 disp(msg)
 uopt
+
+%% exc f)
+
+% Construct matrices for formulating ineq. constrainst of the LP as AV <= b
+A = zeros(n*m,n);
+b = zeros(n*m,1);
+for istate = 1:n % iterate over states
+    for input = 0:m-1 % scalar inequality expression for each pair state/input
+        shift = (istate-1)*m;
+        line = shift + input+1;
+        % Set entries in matrix A in line "line"
+        A(line,istate) = 1;
+        A(line,f(istate,input+1)) = -alpha;
+        % set entry of vector b in line "line"
+        b(line) = f0(istate,input+1);
+    end
+end
 
