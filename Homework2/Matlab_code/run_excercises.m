@@ -80,6 +80,7 @@ uopt
 %% exc f)
 
 % Construct matrices for formulating ineq. constrainst of the LP as AV <= b
+c = -ones(8,1);
 A = zeros(n*m,n);
 b = zeros(n*m,1);
 for istate = 1:n % iterate over states
@@ -88,9 +89,15 @@ for istate = 1:n % iterate over states
         line = shift + input+1;
         % Set entries in matrix A in line "line"
         A(line,istate) = 1;
-        A(line,f(istate,input+1)) = -alpha;
+        A(line,f(istate,input+1)) = A(line,f(istate,input+1)) - alpha;
         % set entry of vector b in line "line"
         b(line) = f0(istate,input+1);
     end
 end
 
+% Compute the value function using linear programming
+Vlp = linprog(c,A,b);
+
+msg = ['The Value function, computed with linear programming, is:'];
+disp(msg)
+Vlp'
