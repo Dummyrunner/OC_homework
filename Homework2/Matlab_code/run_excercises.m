@@ -96,6 +96,7 @@ for istate = 1:n % iterate over states
 end
 
 % Compute the value function using linear programming
+disp('start to solve linear program...')
 Vlp = linprog(c,A,b);
 
 msg = ['The Value function, computed with linear programming, is:'];
