@@ -81,15 +81,15 @@ uopt
 
 % Construct matrices for formulating ineq. constrainst of the LP as AV <= b
 c = -ones(8,1);
-A = zeros(n*m,n);
+Aineq = zeros(n*m,n);
 b = zeros(n*m,1);
 for istate = 1:n % iterate over states
     for input = 0:m-1 % scalar inequality expression for each pair state/input
         shift = (istate-1)*m;
         line = shift + input+1;
         % Set entries in matrix A in line "line"
-        A(line,istate) = 1;
-        A(line,f(istate,input+1)) = A(line,f(istate,input+1)) - alpha;
+        Aineq(line,istate) = 1;
+        Aineq(line,f(istate,input+1)) = Aineq(line,f(istate,input+1)) - alpha;git 
         % set entry of vector b in line "line"
         b(line) = f0(istate,input+1);
     end
@@ -97,7 +97,7 @@ end
 
 % Compute the value function using linear programming
 disp('start to solve linear program...')
-Vlp = linprog(c,A,b);
+Vlp = linprog(c,Aineq,b);
 
 msg = ['The Value function, computed with linear programming, is:'];
 disp(msg)
