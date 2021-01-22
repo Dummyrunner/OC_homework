@@ -56,6 +56,9 @@
 \newcommand{\unull}{u_0}
 \newcommand{\xN}{x_N}
 \newcommand{\xk}{x_k}
+\newcommand{\xeq}{x^{\mathrm{e}}}
+\newcommand{\xeqone}{x^{\mathrm{e}}_1}
+\newcommand{\xeqtwo}{x^{\mathrm{e}}_2}
 \newcommand{\uk}{u_k}
 \newcommand{\xtrpn}{x_n \trp}
 \newcommand{\fxn}{f(\xn)}
@@ -266,7 +269,20 @@
 		\end{enumerate} 
 \subsection*{Problem 2}
 		\begin{enumerate}
-			\item[a)]
+			\item[a)] System
+					\begin{align}
+					\begin{split} \label{eq:system}
+						\xkplus &= A \xk + B \uk \qquad \text{with}\\
+						A &= \matricks{1}{3}{-0.5}{1}, \ B = \vectortwo{0}{1},\ \xnull = \vectortwo{0.6}{-0.7}.
+					\end{split}
+					\end{align}
+					The origin $ \xeq = 0 \in \R^2 $ is a equlibrium point of \eqref{eq:system}, since $ \xeq = A \xeq. $
+					We determine the eigenvalues by computing roots of the characteristic polynomial of $ A $.
+					\[ \det(A - \lambda I) = det\matricks{1-\lambda}{-0.5}{3}{1-\lambda} = \lambda^2 -4\lambda + 1. \]
+					hence, roots of the char. pol. are
+					\[ \lambda_{1,2} = 1 \pm i \frac{\sqrt{6}}{2} \qquad \text{with }i\text{ the imaginary unit.}\]
+					Since $ |\lambda_i | > 1  $ for $ i=1,2 $, $ \xeq $ is an unstable equilibrium.
+					
 			\item[b)]
 		\end{enumerate}	
 \end{document}
