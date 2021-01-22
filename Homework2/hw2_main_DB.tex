@@ -32,6 +32,11 @@
 \newcommand{\fxtrp}{f \trp (x)}
 \newcommand{\xone}{x_1}
 \newcommand{\xtwo}{x_2}
+\newcommand{\xj}{x_j}
+\newcommand{\xk}{x_k}
+\newcommand{\uj}{u_j}
+\newcommand{\uk}{u_k}
+\newcommand{\ui}{u_i}
 \newcommand{\dotx}{\dot x}
 \newcommand{\dotxone}{\dotx_1}
 \newcommand{\dotxtwo}{\dotx_2}
@@ -55,11 +60,11 @@
 \newcommand{\xnull}{x_0}
 \newcommand{\unull}{u_0}
 \newcommand{\xN}{x_N}
-\newcommand{\xk}{x_k}
+%\newcommand{\xk}{x_k}
 \newcommand{\xeq}{x^{\mathrm{e}}}
 \newcommand{\xeqone}{x^{\mathrm{e}}_1}
 \newcommand{\xeqtwo}{x^{\mathrm{e}}_2}
-\newcommand{\uk}{u_k}
+%\newcommand{\uk}{u_k}
 \newcommand{\xtrpn}{x_n \trp}
 \newcommand{\fxn}{f(\xn)}
 \newcommand{\dotVx}{\dot{V}(x)}
@@ -119,6 +124,8 @@
 \newcommand{\kstateVal}[2]{k(\xi_#1) &= #2}
 \newcommand{\util}{\tilde{u}}
 \newcommand{\uopt}{u^*}
+\newcommand{\lambdamin}{\lambda_{\mathrm{min}}}
+\newcommand{\lambdamax}{\lambda_{\mathrm{max}}}
 %opening
 \title{Optimal Control WS20/21: Homework 2}
 \author{Daniel Bergmann}
@@ -283,6 +290,20 @@
 					\[ \lambda_{1,2} = 1 \pm i \frac{\sqrt{6}}{2} \qquad \text{with }i\text{ the imaginary unit.}\]
 					Since $ |\lambda_i | > 1  $ for $ i=1,2 $, $ \xeq $ is an unstable equilibrium.
 					
-			\item[b)]
+			\item[b)] MPC optimization problem at time $ k $ with given state $ x_k = \xbar $:
+				\begin{equation}
+				\begin{aligned} \label{eq:MPCproblem}
+				& \underset{u_k,\dots, u_{k+N}}{\text{min.}}
+				& & \sum_{j = k}^{k + N -1} f_0(\xj,\uj) + \phi(x_{k+N})\\  & & = &\sum_{j = k}^{k + N -1}  = \xj \trp Q \xj + \uj \trp R \uj + x_{k + N} \trp P x_{k + N}\\
+				& \text{subject to}
+				& & x_{j+1} =A \xj + B \uj \ \text{for all} \ j = k,\dots,k+N &\text{(dynamic constraints)}\\
+				& & & \uj \leq 1, \ \text{for all} \ j = k,\dots,k+N &\text{(input constraints)}\\ 
+				& & & \uj \leq 1, \ \text{for all} \ j = k,\dots,k+N\\
+				& & & x_{k+N}\trp P x_{k+N} \leq c, &\text{(terminal constraint)}\\
+				& & & \xk = \xbar, &\text{(initial state constraint)}
+				\end{aligned}
+				\end{equation}
+				with \[ Q = I_2, R = 1, N = 3, c = \frac{\lambdamin (P)}{|K|^2}, K = (0.3 , 1.4). \]	
+					
 		\end{enumerate}	
 \end{document}
