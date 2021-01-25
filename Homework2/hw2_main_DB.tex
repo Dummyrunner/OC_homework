@@ -83,6 +83,8 @@
 \newcommand{\Beul}{\ind{B}{eul}}
 \newcommand{\optmin}{\mathrm{min}.}
 \newcommand{\Aeq}{\ind{A}{eq}}
+%\newcommand{\Aeqx}{\ind{A^x}{eq}}
+%\newcommand{\Aequ}{\ind{A^u}{eq}}
 \newcommand{\beq}{\ind{b}{eq}}
 \newcommand{\Aeqx}{\Aeq^x}
 \newcommand{\Aequ}{\Aeq^u}
@@ -341,10 +343,61 @@
 					\item The terminal region $ \Xf $ is positively invariant\\
 						We show the invariance of the terminal region by proving $ \xj \trp P \xj < c $ for all  times.
 						Since $ \fnull  $ is positive definite, we have with \eqref{it:second}
-						\[  \phi(x_{j+1}) - \phi(\xj) \leq \fnull(\xj,\uj) \leq 0. \] Hence $ \xj \trp P \xj $ is decreasing over time and remaining smaller than $ c $ and hence $ \xj\in\Xf $
-						
+						\[  \phi(x_{j+1}) - \phi(\xj) \leq \fnull(\xj,\uj) \leq 0. \] Hence $ \xj \trp P \xj $ is decreasing over time and remaining smaller than $ c $ and hence $ \xj\in\Xf $.
 				\end{itemize}
-			\item[d)]
-			
+			\item[d)] Write as quadratic optimization problem with quadratic constraints.\\
+					The optimization variable has to contain the input signals as well as the resulting states
+					\begin{equation}
+						z = (\xk \ \dots \ x_{k+N} \ \uk \ \dots \ u_{k+N-1})\trp. \in \R^{(N+1)n + Nm},
+					\end{equation} where $ n $ is the state space dimension and $ u $ the dimension of the input signal.
+					Impölementation of the objective function then is achieved by setting
+					\begin{equation}
+						H = \mathrm{diag}(Q,\dots,Q,P,R,\dots,R) \in \R^{(N+1)n + Nm \times (N+1)n + Nm}
+					\end{equation}
+					with $ N+1 $ blocks of $ Q $ and $ N $ blocks of $ R $. The system dynamics are implemented by the equality constraints
+					\begin{equation}
+						\xjplus = A\xj + B\uj \Longleftrightarrow A\xj - \xjplus + B\uj = 0   
+					\end{equation}
+				for each time sample $ j = k,\dots k+N $.
+				Further, we take the initial condition $ \xk= \xbar $ into account. This yields the linear equation system $ \Aeq z = \begin{pmatrix}
+					\Aeqx & \Aequ
+				\end{pmatrix} = \beq $ with
+				\begin{align}
+				\Aeqx &=
+					\begin{pmatrix}
+						A & -I & 0 & \cdots & \cdots & 0\\
+						0 & A & -I & 0 &\cdots &0\\
+						0 & 0 & \ddots & \ddots &\cdots&0\\
+						0 & 0&\cdots & A &  -I& 0\\
+						0 & 0 & 0 & 0 &  A & -I\\
+						I & 0 & \cdots &\cdots & 0 & 0
+					\end{pmatrix}\\
+				\Aequ &= 
+					\begin{pmatrix}
+						B & 0 & \cdots & 0\\
+						0 & B & \cdots & 0\\
+						0& 0 & \ddots & 0\\
+						0 & \cdots & 0 & B\\
+						0 & 0 & \cdots & 0
+					\end{pmatrix}\\
+				\beq&=	\begin{pmatrix}
+						0 \cdots x(k)
+					\end{pmatrix}	\trp,	
+				\end{align}
+				where the last lines of $ \Aeqx,\Aequ,\beq $ represent the initial condition.
+				The  input constraints are represented within the inequality constraints of the problem.
+				Therefore
+				\begin{align}
+					\Aineq &= \begin{pmatrix}
+						0 & I \\
+						0 & -I
+					\end{pmatrix}\\
+					\bineq &= \begin{pmatrix}
+						1 & \cdots & 1
+					\end{pmatrix}\trp.
+				\end{align}
+				Lastly, the terminal constraints $ \xN \trp P\xN \leq c $ are implemented by $ z \trp T z $ with a blockdiagonalmatrix $ T $ that consists of zeros exept at the position that meets $ \xN $, this block is assigned with $ P $.\\
+				By definiteness of $ P,Q,R $, the matrices $ T,H $ in the quadratic terms are positive (semi-)definite, while all other constraints are affine. This means, that the optimization problem is convex.
 		\end{enumerate}	
+		
 \end{document}
