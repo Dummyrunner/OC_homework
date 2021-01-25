@@ -33,6 +33,7 @@
 \newcommand{\xone}{x_1}
 \newcommand{\xtwo}{x_2}
 \newcommand{\xj}{x_j}
+\newcommand{\xjplus}{x_{j+1}}
 \newcommand{\xk}{x_k}
 \newcommand{\uj}{u_j}
 \newcommand{\uk}{u_k}
@@ -313,7 +314,7 @@
 						\begin{align}
 							\lambdamin(P) \norm{x}^2 \leq x\trp Px \Longleftrightarrow \norm{x}^2\leq  \frac{x\trp Px}{\lambdamin(P)}, \label{eq:lambdaEstimate}
 						\end{align}
-						while $ \norm{\cdot} $ denotes the euclidean norm.
+						where $ \norm{\cdot} $ denotes the euclidean norm.
 						We can use that to estimate
 						\begin{align}
 							\norm{u} &= \norm{Kx} = x\trp KK \trp x = \norm{K}^2 x\trp x = \norm{K}^2 \norm{x}^2 \\
@@ -321,9 +322,25 @@
 						\end{align}
 						Hence, for $ x\in\Xf $, satisfying the terminal constraint from \eqref{eq:MPCproblem}, $ u $ is a feasible input.
 						
-					\item The condition \todo  is satisfied
-					\item The terminal region $ \Xf $ is positively invariant
+					\item The condition  $ \phi(x_{j+1}) - \phi(\xj) \leq \fnull(\xj,\uj) $  is satisfied for all states $ \xj $.\label{it:second}\\
+						Since we have linear system dynamics and quadratic costs as a quadratic expression in $ \xj $.
+						Plugging in our particular system, yields
+						\begin{align}
+							& &\phi(x_{j+1}) - \phi(\xj) &\leq \fnull(\xj,\uj)\\
+							\Longleftrightarrow & & \xjplus \trp P \xjplus - \xj \trp P\xj &\leq -\xj\trp Q\xj -\uj \trp \uj \\
+							\Longleftrightarrow & & (A\xj + B\uj)\trp P (A\xj + B\uj)- \xj \trp P\xj &\leq -\xj \trp Q \xj - \uj  \trp R \uj.
+						\end{align}
+						With the state feedback $ \uj = -K\xj $, we get
+						\begin{align}
+							 &((A - BK)\xj)\trp P ((A - BK)\xj) - \xj \trp P\xj \leq -\xj \trp Q \xj - (-K\xj)  \trp R (-K\xj)\\
+							\Longleftrightarrow \ & \xj \trp ((A - BK)\trp P(A - BK) - P + Q + K\trp R K)\xj \leq 0
+						\end{align}
+						Hence with $ M := (A - BK)\trp P(A - BK) - P + Q + K\trp R K $, we have \[ \phi(x_{j+1}) - \phi(\xj) \leq \fnull(\xj,\uj)  \Longleftrightarrow \xj \trp M \xj \leq 0 \Longleftrightarrow M \preccurlyeq 0 . \]
+						For our example, we have $ M = \matricks{-0.266}{1.068}{1.068}{-6.364} \preccurlyeq 0 $, thus the condition holds true. 
+						
+					\item The terminal region $ \Xf $ is positively invariant\\
 				\end{enumerate}
+			\item[d)]
 			
 		\end{enumerate}	
 \end{document}

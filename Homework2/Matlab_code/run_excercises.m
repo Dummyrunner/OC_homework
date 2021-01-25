@@ -1,4 +1,4 @@
-%% Problem 
+%% Problem 1
 
 % Init Val. Function with arbitrarily chosen Init. cond.
 V0 = zeros(8,1);
@@ -89,7 +89,7 @@ for istate = 1:n % iterate over states
         line = shift + input+1;
         % Set entries in matrix A in line "line"
         Aineq(line,istate) = 1;
-        Aineq(line,f(istate,input+1)) = Aineq(line,f(istate,input+1)) - alpha;git 
+        Aineq(line,f(istate,input+1)) = Aineq(line,f(istate,input+1)) - alpha;
         % set entry of vector b in line "line"
         b(line) = f0(istate,input+1);
     end
@@ -102,3 +102,17 @@ Vlp = linprog(c,Aineq,b);
 msg = ['The Value function, computed with linear programming, is:'];
 disp(msg)
 Vlp'
+
+%% Problem 2
+
+A = [1 3; -.5 1];
+B = [0; 1];
+
+K = [-.3 1.4];
+
+P = [4.2 7; 7 36.1];
+
+Q = eye(2); R = 1;
+
+M = (A-B*K)'*P*(A-B*K) - P + Q + K'*R*K;
+% eig(M) <= 0
