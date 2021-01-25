@@ -116,3 +116,10 @@ Q = eye(2); R = 1;
 
 M = (A-B*K)'*P*(A-B*K) - P + Q + K'*R*K;
 % eig(M) <= 0
+
+xnormbound = inf;
+unormbound = 1;
+N = 3;
+
+
+mpcZTC2quadprog(A,B,Q,R,1,N,x0,xnormbound,unormbound)
