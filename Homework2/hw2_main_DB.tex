@@ -308,7 +308,7 @@
 				with \[ Q = I_2, R = 1, N = 3, c = \frac{\lambdamin (P)}{|K|^2}, K = (0.3 , 1.4). \]
 			\item[c)]
 			For the given controller $ u = Kx $ for $ \Xf $, we show
-				\begin{enumerate}
+				\begin{itemize}
 					\item For all states $ x \in \Xf $, $ u = Kx $ is a feasible input signal.\\
 						From linear algebra, we know
 						\begin{align}
@@ -322,11 +322,11 @@
 						\end{align}
 						Hence, for $ x\in\Xf $, satisfying the terminal constraint from \eqref{eq:MPCproblem}, $ u $ is a feasible input.
 						
-					\item The condition  $ \phi(x_{j+1}) - \phi(\xj) \leq \fnull(\xj,\uj) $  is satisfied for all states $ \xj $.\label{it:second}\\
+					\item  The condition  $ \phi(x_{j+1}) - \phi(\xj) \leq \fnull(\xj,\uj) $  is satisfied for all states $ \xj $.\\
 						Since we have linear system dynamics and quadratic costs as a quadratic expression in $ \xj $.
 						Plugging in our particular system, yields
 						\begin{align}
-							& &\phi(x_{j+1}) - \phi(\xj) &\leq \fnull(\xj,\uj)\\
+							& &\phi(x_{j+1}) - \phi(\xj) &\leq \fnull(\xj,\uj) \label{it:second}\\
 							\Longleftrightarrow & & \xjplus \trp P \xjplus - \xj \trp P\xj &\leq -\xj\trp Q\xj -\uj \trp \uj \\
 							\Longleftrightarrow & & (A\xj + B\uj)\trp P (A\xj + B\uj)- \xj \trp P\xj &\leq -\xj \trp Q \xj - \uj  \trp R \uj.
 						\end{align}
@@ -339,7 +339,11 @@
 						For our example, we have $ M = \matricks{-0.266}{1.068}{1.068}{-6.364} \preccurlyeq 0 $, thus the condition holds true. 
 						
 					\item The terminal region $ \Xf $ is positively invariant\\
-				\end{enumerate}
+						We show the invariance of the terminal region by proving $ \xj \trp P \xj < c $ for all  times.
+						Since $ \fnull  $ is positive definite, we have with \eqref{it:second}
+						\[  \phi(x_{j+1}) - \phi(\xj) \leq \fnull(\xj,\uj) \leq 0. \] Hence $ \xj \trp P \xj $ is decreasing over time and remaining smaller than $ c $ and hence $ \xj\in\Xf $
+						
+				\end{itemize}
 			\item[d)]
 			
 		\end{enumerate}	
