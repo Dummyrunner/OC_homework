@@ -1,11 +1,12 @@
-function [H,c,Aineq,bineq,Aeq,beq] = mpcZTC2quadprog(Ad,Bd,Q,R,delta,N,xt,xnormbound,unormbound)
-%MPCZTC2QUADPROG Translates a LQR problem with finite time horizon
-%into a quadratic program
-%  LQR optimal control problem of a time-discrete
+function [H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(Ad,Bd,Q,R,delta,N,xt,xnormbound,unormbound)
+%MPCQIH2QUADPROG Translates a LQR problem with quasi-infinite time horizon
+%into a quadratic program with quadratic an linear constraints.
+% 
 %   system determined by Ad, Bd with sample time delta and
 %   time horizon N, initial state x0 and bounds on the maximum
 %   norm of state x and input u. Q,R define the objective that has to be
-%   minimized
+%   minimized, P characterizes the terminal cost of a MPC problem.
+%   T implements the terminal constraints as a quadratic inequality.
 
 n = size(Ad,1);
 m = size(Bd,2);
@@ -39,6 +40,8 @@ beq = [xt; zeros((N+1)*n,1)];
 
 Aeq = [Aeqx Aequ];
 
-% c = zeros(N*(m+n)+n,1);
+T = zeros(size(H));
+T(N*n+1:N*n+n,N*n+1:N*n+n) = P;
+
 end
 

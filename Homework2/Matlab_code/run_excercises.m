@@ -122,4 +122,5 @@ unormbound = 1;
 N = 3;
 
 
-mpcZTC2quadprog(A,B,Q,R,1,N,x0,xnormbound,unormbound)
+[H,Aineq,bineq,Aeq,beq] = mpcZTC2quadprog(A,B,Q,R,1,N,x0,xnormbound,unormbound);
+
