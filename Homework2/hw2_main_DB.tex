@@ -365,26 +365,26 @@
 				\begin{align}
 				\Aeqx &=
 					\begin{pmatrix}
+						I & 0 & \cdots &\cdots & 0 & 0\\
 						A & -I & 0 & \cdots & \cdots & 0\\
 						0 & A & -I & 0 &\cdots &0\\
 						0 & 0 & \ddots & \ddots &\cdots&0\\
 						0 & 0&\cdots & A &  -I& 0\\
-						0 & 0 & 0 & 0 &  A & -I\\
-						I & 0 & \cdots &\cdots & 0 & 0
+						0 & 0 & 0 & 0 &  A & -I
 					\end{pmatrix}\\
 				\Aequ &= 
 					\begin{pmatrix}
+					0 & 0 & \cdots & 0\\
 						B & 0 & \cdots & 0\\
 						0 & B & \cdots & 0\\
 						0& 0 & \ddots & 0\\
-						0 & \cdots & 0 & B\\
-						0 & 0 & \cdots & 0
+						0 & \cdots & 0 & B
 					\end{pmatrix}\\
 				\beq&=	\begin{pmatrix}
-						0 \cdots x(k)
+						x(k) \cdots 0
 					\end{pmatrix}	\trp,	
 				\end{align}
-				where the last lines of $ \Aeqx,\Aequ,\beq $ represent the initial condition.
+				where the first lines of $ \Aeqx,\Aequ,\beq $ represent the initial condition.
 				The  input constraints are represented within the inequality constraints of the problem.
 				Therefore
 				\begin{align}
