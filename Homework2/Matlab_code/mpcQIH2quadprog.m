@@ -1,4 +1,4 @@
-function [H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(Ad,Bd,Q,R,delta,N,xt,xnormbound,unormbound)
+function [H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(Ad,Bd,Q,R,P,delta,N,xt,xnormbound,unormbound)
 %MPCQIH2QUADPROG Translates a LQR problem with quasi-infinite time horizon
 %into a quadratic program with quadratic an linear constraints.
 % 
