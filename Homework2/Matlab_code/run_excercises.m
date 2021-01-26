@@ -107,20 +107,34 @@ Vlp'
 
 A = [1 3; -.5 1];
 B = [0; 1];
-
 K = [-.3 1.4];
-
 P = [4.2 7; 7 36.1];
-
 Q = eye(2); R = 1;
+c = min(eig(P))/norm(K)^2;
+
+n = 2;
+m = 8;
 
 M = (A-B*K)'*P*(A-B*K) - P + Q + K'*R*K;
 % eig(M) <= 0
+
+x0 = [.6;-.7];
 
 xnormbound = inf;
 unormbound = 1;
 N = 3;
 
+[H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(A,B,Q,R,P,1,N,x0,xnormbound,unormbound);
+f0 = @(z) z'*H*z;
+z0 = [x0; zeros(size(H,1)-n,1)];
 
-[H,Aineq,bineq,Aeq,beq] = mpcZTC2quadprog(A,B,Q,R,1,N,x0,xnormbound,unormbound);
+cineq = @(z) z'*T*z - c;
+eq = @(z) 0;
+nonlcon = [cineq; eq];
+
+lb = -inf(size(H,1),1); ub = -lb;
+[x,fval] = fmincon(f0,z0,Aineq,bineq,Aeq,beq,lb,ub,  nonlcon)
+
+
+
 
