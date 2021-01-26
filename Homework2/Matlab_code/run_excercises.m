@@ -115,26 +115,36 @@ c = min(eig(P))/norm(K)^2;
 n = 2;
 m = 8;
 
+%% exc e)
+
 M = (A-B*K)'*P*(A-B*K) - P + Q + K'*R*K;
 % eig(M) <= 0
 
 x0 = [.6;-.7];
 
-xnormbound = inf;
+% xnormbound = inf;
 unormbound = 1;
 N = 3;
 
-[H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(A,B,Q,R,P,1,N,x0,xnormbound,unormbound);
-f0 = @(z) z'*H*z;
+[H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(A,B,Q,R,P,1,N,x0,unormbound);
 z0 = [x0; zeros(size(H,1)-n,1)];
 
-cineq = @(z) z'*T*z - c;
-eq = @(z) 0;
-nonlcon = [cineq; eq];
+objective = @(z,H) z'*H*z;
 
-lb = -inf(size(H,1),1); ub = -lb;
-[x,fval] = fmincon(f0,z0,Aineq,bineq,Aeq,beq,lb,ub,  nonlcon)
+cineq = @(z) [quad_constr(z,T,c), 0];
+
+fmincon_options = optimset('Display','off'); % suppress text outpu by fmincon
+
+disp('Exc e) solve MPC via Quadratic programming')
+
+f0 = @(z) objective(z,H);
+
+nonlcon = @(z) constraints(z,T,c);
+z1 = fmincon(f0,z0,Aineq,bineq,Aeq,beq,[],[],nonlcon,fmincon_options);
 
 
-
+function [cineq, ceq]=constraints(z, T, c)
+    cineq = z'*T*z - c;
+    ceq = [];    
+end
 
