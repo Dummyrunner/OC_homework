@@ -113,7 +113,7 @@ Q = eye(2); R = 1;
 c = min(eig(P))/norm(K)^2;
 
 n = 2;
-m = 8;
+m = 1;
 
 %% exc e)
 
@@ -133,17 +133,48 @@ objective = @(z,H) z'*H*z;
 
 cineq = @(z) [quad_constr(z,T,c), 0];
 
-fmincon_options = optimset('Display','off'); % suppress text outpu by fmincon
+fmincon_options = optimset('Display','off'); % suppress text output by fmincon
 
 disp('Exc e) solve MPC via Quadratic programming')
 
 f0 = @(z) objective(z,H);
 
 nonlcon = @(z) constraints(z,T,c);
-z1 = fmincon(f0,z0,Aineq,bineq,Aeq,beq,[],[],nonlcon,fmincon_options);
 
 
+mpc_it = 30; % MPC ITerations
+z_curr = z0; % initialize state
+
+% initialize arrays to store all states/inputs
+allx = [];
+allu = [];
+
+for impc = 1:mpc_it
+    % solve MPC Problem, get predicted trajectory
+    z_curr = fmincon(f0,z_curr,Aineq,bineq,Aeq,beq,[],[],nonlcon,fmincon_options);
+    
+    % extract first input
+    first_input = z_curr((N+1)*n:(N+1)*n+(m-1));
+    
+    % Extract new intial state for next MPC iteration
+    new_x0 = z_curr(n+1:2*n);
+    % Adjust initial state of next iteration
+    beq = [new_x0; zeros((N)*n,1)];
+    
+    % save data to array
+    allx = [allx new_x0]; %states
+    allu = [allu first_input]; %inputs
+end
+
+disp('MPC-Iterations done.')
+
+% Plot via external script
+plot_exce;
+
+%% exc f)
+%--------------------------------------------------------------------------
 function [cineq, ceq]=constraints(z, T, c)
+%     Implements quadratic inequality constraints
     cineq = z'*T*z - c;
     ceq = [];    
 end
