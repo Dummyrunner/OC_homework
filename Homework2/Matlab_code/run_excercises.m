@@ -120,64 +120,51 @@ m = 1;
 M = (A-B*K)'*P*(A-B*K) - P + Q + K'*R*K;
 % eig(M) <= 0
 
-x0 = [.6;-.7];
-
-% xnormbound = inf;
 unormbound = 1;
 N = 3;
 
-[H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(A,B,Q,R,P,1,N,x0,unormbound);
-z0 = [x0; zeros(size(H,1)-n,1)];
+x0_e = [.6;-.7];
+x0_f = [1; -.9];
+[H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(A,B,Q,R,P,1,N,x0_e,unormbound);
+
+z0 = [x0_e; zeros(size(H,1)-n,1)];
 
 objective = @(z,H) z'*H*z;
-
 cineq = @(z) [quad_constr(z,T,c), 0];
 
+% Set options for fmincon
 fmincon_options = optimset('Display','off'); % suppress text output by fmincon
 
 disp('Exc e) solve MPC via Quadratic programming')
 
+% Set objective function and nonlin. constraints
 f0 = @(z) objective(z,H);
-
 nonlcon = @(z) constraints(z,T,c);
 
+mpc_it = 30; % number of MPC Iterations
 
-mpc_it = 30; % MPC ITerations
-z_curr = z0; % initialize state
+% Execute MPC iterations for x0 = [.6;-.7];
+[allx_e, allu_e] = mpcIteration(Aineq,bineq,Aeq,beq,x0_e,f0,nonlcon,fmincon_options,mpc_it,N);
 
-% initialize arrays to store all states/inputs
-allx = [.6;-.7];
-allu = [];
 
-for impc = 1:mpc_it
-    % solve MPC Problem, get predicted trajectory
-    z_curr = fmincon(f0,z_curr,Aineq,bineq,Aeq,beq,[],[],nonlcon,fmincon_options);
-    
-    % extract first input
-    first_input = z_curr((N+1)*n:(N+1)*n+(m-1));
-    
-    % Extract new intial state for next MPC iteration
-    new_x0 = z_curr(n+1:2*n);
-    % Adjust initial state of next iteration
-    beq = [new_x0; zeros((N)*n,1)];
-    
-    % save data to array
-    allx = [allx new_x0]; %states
-    allu = [allu first_input]; %inputs
-end
-
-disp('MPC-Iterations done.')
+disp('MPC-Iterations for e) done.')
 
 % Plot via external script
 plot_exce;
 
-%% Save Plots to file
-saveas(fig_f1, '..\plots\exc_e.png','epsc')
-
-
 
 %% exc f)
-%--------------------------------------------------------------------------
+% Execute MPC iterations for x0 = [1 -0.9];
+[allx_f, allu_f] = mpcIteration(Aineq,bineq,Aeq,beq,x0_f,f0,nonlcon,fmincon_options,mpc_it,N);
+disp('MPC-Iterations for f) done.')
+
+plot_excf;
+
+%% Save Plots to file
+saveas(fig_e, '..\plots\exc_e','epsc')
+saveas(fig_f, '..\plots\exc_f','epsc')
+
+%% --------------------------------------------------------------------------
 function [cineq, ceq]=constraints(z, T, c)
 %     Implements quadratic inequality constraints
     cineq = z'*T*z - c;
