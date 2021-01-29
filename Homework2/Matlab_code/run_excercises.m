@@ -146,7 +146,7 @@ mpc_it = 30; % MPC ITerations
 z_curr = z0; % initialize state
 
 % initialize arrays to store all states/inputs
-allx = [];
+allx = [.6;-.7];
 allu = [];
 
 for impc = 1:mpc_it
