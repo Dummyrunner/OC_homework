@@ -171,6 +171,11 @@ disp('MPC-Iterations done.')
 % Plot via external script
 plot_exce;
 
+%% Save Plots to file
+saveas(fig_f1, '..\plots\exc_e.png','epsc')
+
+
+
 %% exc f)
 %--------------------------------------------------------------------------
 function [cineq, ceq]=constraints(z, T, c)
