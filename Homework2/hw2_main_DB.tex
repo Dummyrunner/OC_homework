@@ -298,7 +298,7 @@
 				\begin{equation}
 				\begin{aligned} \label{eq:MPCproblem}
 				& \underset{u_k,\dots, u_{k+N}}{\text{min.}}
-				& & \sum_{j = k}^{k + N -1} f_0(\xj,\uj) + \phi(x_{k+N})\\  & & = &\sum_{j = k}^{k + N -1}  = \xj \trp Q \xj + \uj \trp R \uj + x_{k + N} \trp P x_{k + N}\\
+				& & \sum_{j = k}^{k + N -1} f_0(\xj,\uj) + \phi(x_{k+N})\\  & & = &\sum_{j = k}^{k + N -1}   \xj \trp Q \xj + \uj \trp R \uj + x_{k + N} \trp P x_{k + N}\\
 				& \text{subject to}
 				& & x_{j+1} =A \xj + B \uj \ \text{for all} \ j = k,\dots,k+N &\text{(dynamic constraints)}\\
 				& & & \uj \leq 1, \ \text{for all} \ j = k,\dots,k+N, &\text{(input constraints)}\\ 
