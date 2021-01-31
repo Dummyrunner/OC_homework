@@ -12,8 +12,11 @@ z_curr = zeros((N+1)*n + N*m,1);
 z_curr(1:n) = x0;
 
 % solve MPC Problem, get predicted trajectory
-z_curr = fmincon(f0,z_curr,Aineq,bineq,Aeq,beq,[],[],nonlcon,fmincon_options);
-
+[z_curr,fval,exitflag,output] = fmincon(f0,z_curr,Aineq,bineq,Aeq,beq,[],[],nonlcon,fmincon_options);
+if exitflag == 0
+    msg = ['MPC Optimization via fmincon did not succeed!'];
+    disp(msg);
+end
 % extract first input
 u_next = z_curr((N+1)*n+1:(N+1)*n+m);
 
