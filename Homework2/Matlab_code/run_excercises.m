@@ -219,9 +219,9 @@ disp('MPC-Iterations for f) done.')
 plot_excf;
 
 %% Save Plots to file
-% saveas(fig_e, '..\plots\exc_e','epsc')
-% saveas(fig_f, '..\plots\exc_f','epsc')
-% 
+saveas(fig_e, '..\plots\exc_e','epsc')
+saveas(fig_f, '..\plots\exc_f','epsc')
+
 %% --------------------------------------------------------------------------
 function [cineq, ceq]=constraints(z, T, c)
 %     Implements quadratic inequality constraints
