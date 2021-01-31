@@ -411,7 +411,10 @@
 				\includegraphics[width=0.9\linewidth]{plots/exc_f}
 				\caption[Plot for exc. f)]{Plot for exc. f)}
 				\label{fig:excf}
-			\end{figure}}
+			\end{figure}
+			There appear input signals $ u $, that are not within the admissible range [-1,1]. The reason is, that the solver does not find a feasible solution for the MPC problem with the given initial state. Hence, recursive feasibility does not apply, and the MPC optimization fails.
+		}
+		
 					
 		\end{enumerate}	
 		
