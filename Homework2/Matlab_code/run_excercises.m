@@ -174,10 +174,6 @@ end
 allx_e = allx;
 allu_e = allu;
 
-
-% [allx_e, allu_e] = mpcIteration(Aineq,bineq,Aeq,beq,x0_e,f0,nonlcon,fmincon_options,mpc_it,N);
-
-
 disp('MPC-Iterations for e) done.')
 
 % Plot via external script
@@ -185,13 +181,44 @@ plot_exce;
 
 
 %% exc f)
-% % Execute MPC iterations for x0 = [1 -0.9];
-% [allx_f, allu_f] = mpcIteration(Aineq,bineq,Aeq,beq,x0_f,f0,nonlcon,fmincon_options,mpc_it,N);
-% disp('MPC-Iterations for f) done.')
-% 
-% plot_excf;
+% Execute MPC iterations for x0 = [1 -0.9];
+% Execute MPC iterations for x0 = [.6;-.7];
+x0 = x0_f;
+% Construct Matrices to describe Opt. Problem
+[H,T,Aineq,bineq,Aeq,beq] = mpcQIH2quadprog(A,B,Q,R,P,1,N,x0,unormbound);
+z0 = [x0; zeros(size(H,1)-n,1)];
 
-% %% Save Plots to file
+x =  x0;
+allx = x0;
+allu = [];
+disp('begin MPC Iteration for exc e)')
+
+for impc = 1:mpc_it
+    if x'*P*x < c % state in terminal region, apply local controller
+       u = -K*x; % compute state feedback
+       x = A*x + B*u; % compute next state
+       % save state and input to array
+       msg = ['Iteration ',num2str(impc),': Apply local controller'];
+    else % state not in terminal region, compute MPC input via conv. opt.
+        % Implement initial constraint
+        beq = [x; zeros(N*n,1)];
+        % Solve MPC Opt. Problem
+        u = mpcIteration(Aineq,bineq,Aeq,beq,x0,f0,nonlcon,N);
+        x = A*x + B*u;
+        msg = ['Iteration ',num2str(impc),': Solve MPC opt. Problem'];
+    end
+   allu = [allu u]; % save obtained input signal
+   allx = [allx x]; % save obtaines new state
+   % Report chosen controlling variant on screen
+   disp(msg);
+end
+allx_f = allx;
+allu_f = allu;
+disp('MPC-Iterations for f) done.')
+
+plot_excf;
+
+%% Save Plots to file
 % saveas(fig_e, '..\plots\exc_e','epsc')
 % saveas(fig_f, '..\plots\exc_f','epsc')
 % 
