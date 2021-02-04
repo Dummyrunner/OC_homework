@@ -162,7 +162,7 @@ for impc = 1:mpc_it
         % Implement initial constraint
         beq = [x; zeros(N*n,1)];
         % Solve MPC Opt. Problem
-        u = mpcIteration(Aineq,bineq,Aeq,beq,x0,f0,nonlcon,N);
+        u = mpcIteration(Aineq,bineq,Aeq,beq,x,f0,nonlcon,N);
         x = A*x + B*u;
         msg = ['Iteration ',num2str(impc),': Solve MPC opt. Problem'];
     end
@@ -202,8 +202,9 @@ for impc = 1:mpc_it
     else % state not in terminal region, compute MPC input via conv. opt.
         % Implement initial constraint
         beq = [x; zeros(N*n,1)];
+        x0 = x;
         % Solve MPC Opt. Problem
-        u = mpcIteration(Aineq,bineq,Aeq,beq,x0,f0,nonlcon,N);
+        u = mpcIteration(Aineq,bineq,Aeq,beq,x,f0,nonlcon,N);
         x = A*x + B*u;
         msg = ['Iteration ',num2str(impc),': Solve MPC opt. Problem'];
     end
